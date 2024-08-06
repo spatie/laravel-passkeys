@@ -47,11 +47,10 @@ class Config
 
         self::ensureValidActionClass($actionName, $actionBaseClass, $actionClass);
 
-       return config("laravel-passkeys.actions.{$actionName}");
+        return config("laravel-passkeys.actions.{$actionName}");
     }
 
-    protected static function ensureValidActionClass
-    (string $actionName, string $actionBaseClass, string $actionClass): void
+    protected static function ensureValidActionClass(string $actionName, string $actionBaseClass, string $actionClass): void
     {
         if (! is_subclass_of($actionClass, $actionBaseClass)) {
             throw InvalidActionClass::make($actionName, $actionBaseClass, $actionClass);

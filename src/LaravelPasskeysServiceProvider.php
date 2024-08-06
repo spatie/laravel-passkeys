@@ -4,7 +4,6 @@ namespace Spatie\LaravelPasskeys;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Spatie\LaravelPasskeys\Commands\LaravelPasskeysCommand;
 
 class LaravelPasskeysServiceProvider extends PackageServiceProvider
 {

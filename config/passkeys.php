@@ -14,5 +14,5 @@ return [
 
     'actions' => [
         'generate_passkey_options' => \Spatie\LaravelPasskeys\Actions\GeneratePasskeyOptionsAction::class,
-    ]
+    ],
 ];
