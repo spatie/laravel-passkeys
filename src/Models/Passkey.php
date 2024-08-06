@@ -33,8 +33,8 @@ class Passkey extends Model
 
     public function authenticatable(): BelongsTo
     {
-        $model = Config::getAuthenticatableModel();
+        $authenticatableModel = Config::getAuthenticatableModel();
 
-        return $this->belongsTo($model);
+        return $this->belongsTo($authenticatableModel);
     }
 }

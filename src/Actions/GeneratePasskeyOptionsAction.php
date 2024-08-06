@@ -25,7 +25,7 @@ class GeneratePasskeyOptionsAction
         return new PublicKeyCredentialRpEntity(
             name: Config::getRelyingPartyName(),
             id: Config::getRelyingPartyId(),
-            icon: Config::getRelyingPartyIcon()
+            icon: Config::getRelyingPartyIcon(),
         );
     }
 
