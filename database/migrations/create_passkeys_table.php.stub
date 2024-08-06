@@ -8,10 +8,13 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('laravel_passkeys_table', function (Blueprint $table) {
+        Schema::create('passkeys', function (Blueprint $table) {
             $table->id();
 
-            // add fields
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->text('name');
+            $table->text('credential_id');
+            $table->json('data');
 
             $table->timestamps();
         });
