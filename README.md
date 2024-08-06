@@ -1,3 +1,5 @@
+**THIS PACKAGE IS IN DEVELOPMENT, DO NOT USE (YET)**
+
 # Use passkeys in your Laravel app
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-passkeys.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-passkeys)
