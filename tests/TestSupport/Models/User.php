@@ -10,8 +10,8 @@ use Spatie\LaravelPasskeys\Tests\TestSupport\Factories\UserFactory;
 
 class User extends \Illuminate\Foundation\Auth\User implements HasPasskeys
 {
-    use InteractsWithPasskeys;
     use HasFactory;
+    use InteractsWithPasskeys;
 
     protected static function newFactory(): Factory
     {

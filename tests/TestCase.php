@@ -13,7 +13,6 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
-
         Factory::guessFactoryNamesUsing(
             fn (string $modelName) => 'Spatie\\LaravelPasskeys\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
@@ -34,7 +33,7 @@ class TestCase extends Orchestra
 
         config()->set('passkeys.models.authenticatable', User::class);
 
-        $migration = include __DIR__ .'/../vendor/orchestra/testbench-core/laravel/migrations/0001_01_01_000000_testbench_create_users_table.php';
+        $migration = include __DIR__.'/../vendor/orchestra/testbench-core/laravel/migrations/0001_01_01_000000_testbench_create_users_table.php';
         $migration->up();
 
         $migration = include __DIR__.'/../database/migrations/create_passkeys_table.php.stub';

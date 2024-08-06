@@ -5,7 +5,6 @@ namespace Spatie\LaravelPasskeys;
 use Illuminate\Support\Facades\Route;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Spatie\LaravelPasskeys\Commands\LaravelPasskeysCommand;
 use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyRegisterOptionsController;
 
 class LaravelPasskeysServiceProvider extends PackageServiceProvider
