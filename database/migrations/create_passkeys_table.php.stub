@@ -3,15 +3,20 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Spatie\LaravelPasskeys\Support\Config;
 
 return new class extends Migration
 {
     public function up()
     {
-        Schema::create('passkeys', function (Blueprint $table) {
+        $authenticatableClass = Config::getAuthenticatableModel();
+
+        $authenticatableTableName = (new $authenticatableClass)->getTable();
+
+        Schema::create('passkeys', function (Blueprint $table) use ($authenticatableTableName) {
             $table->id();
 
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignId('authenticatable_id')->constrained($authenticatableTableName)->cascadeOnDelete();
             $table->text('name');
             $table->text('credential_id');
             $table->json('data');
