@@ -78,6 +78,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
+This code is based on the [Laracast course on passkeys](https://laracasts.com/series/add-passkeys-to-a-laravel-app) by the amazing [Luke Downing](https://github.com/lukeraymonddowning).
+
 - [Freek Van der Herten](https://github.com/freekmurze)
 - [All Contributors](../../contributors)
 
