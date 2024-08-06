@@ -5,12 +5,12 @@ use Illuminate\Support\Str;
 use Spatie\LaravelPasskeys\Support\Config;
 use Spatie\LaravelPasskeys\Tests\TestSupport\Models\User;
 
-beforeEach(function() {
-   Route::passkeys();
+beforeEach(function () {
+    Route::passkeys();
 
-   $this->user = User::factory()->create();
+    $this->user = User::factory()->create();
 
-   $this->actingAs($this->user);
+    $this->actingAs($this->user);
 });
 
 it('can generate passkey register options', function () {
@@ -21,7 +21,7 @@ it('can generate passkey register options', function () {
             'rp' => [
                 'name' => Config::getRelyingPartyName(),
                 'id' => Config::getRelyingPartyId(),
-                'icon' => Config::getRelyingPartyIcon()
+                'icon' => Config::getRelyingPartyIcon(),
             ],
             'user' => [
                 'displayName' => $this->user->name,
