@@ -28,9 +28,7 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
-
         config()->set('auth.providers.users.model', User::class);
-
         config()->set('passkeys.models.authenticatable', User::class);
 
         $migration = include __DIR__.'/../vendor/orchestra/testbench-core/laravel/migrations/0001_01_01_000000_testbench_create_users_table.php';
@@ -38,9 +36,5 @@ class TestCase extends Orchestra
 
         $migration = include __DIR__.'/../database/migrations/create_passkeys_table.php.stub';
         $migration->up();
-    }
-
-    public function defineRoutes($router)
-    {
     }
 }
