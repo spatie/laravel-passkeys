@@ -5,10 +5,10 @@ namespace Spatie\LaravelPasskeys\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\LaravelPasskeys\Models\Passkey;
 use Spatie\LaravelPasskeys\Support\Config;
+use Symfony\Component\Uid\Uuid;
 use Webauthn\PublicKeyCredentialDescriptor;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\TrustPath\EmptyTrustPath;
-use Symfony\Component\Uid\Uuid;
 
 class PasskeyFactory extends Factory
 {

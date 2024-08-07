@@ -4,6 +4,7 @@ namespace Spatie\LaravelPasskeys\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
 use Webauthn\AuthenticatorAttestationResponse;
@@ -11,7 +12,6 @@ use Webauthn\AuthenticatorAttestationResponseValidator;
 use Webauthn\CeremonyStep\CeremonyStepManagerFactory;
 use Webauthn\Denormalizer\WebauthnSerializerFactory;
 use Webauthn\PublicKeyCredential;
-use Illuminate\Validation\ValidationException;
 
 class StorePasskeyController
 {
@@ -33,11 +33,11 @@ class StorePasskeyController
             ])->errorBag('createPasskey');
         }
 
-        if (!$publicKeyCredential->response instanceof AuthenticatorAttestationResponse) {
+        if (! $publicKeyCredential->response instanceof AuthenticatorAttestationResponse) {
             throw new Exception('Invalid passkey');
         }
 
-        $csmFactory = new CeremonyStepManagerFactory();
+        $csmFactory = new CeremonyStepManagerFactory;
 
         $creationCsm = $csmFactory->creationCeremony();
 
