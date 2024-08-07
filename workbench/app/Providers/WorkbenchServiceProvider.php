@@ -9,7 +9,7 @@ class WorkbenchServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        Route::get('/', function() {
+        Route::get('/', function () {
             return 'hi';
         });
     }

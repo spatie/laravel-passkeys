@@ -40,7 +40,5 @@ class TestCase extends Orchestra
         $migration->up();
     }
 
-    public function defineRoutes($router)
-    {
-    }
+    public function defineRoutes($router) {}
 }
