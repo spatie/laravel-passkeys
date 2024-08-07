@@ -39,4 +39,8 @@ class TestCase extends Orchestra
         $migration = include __DIR__.'/../database/migrations/create_passkeys_table.php.stub';
         $migration->up();
     }
+
+    public function defineRoutes($router)
+    {
+    }
 }

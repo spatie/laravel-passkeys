@@ -2,6 +2,7 @@
 
 namespace Spatie\LaravelPasskeys\Http\Controllers;
 
+use Illuminate\Support\Facades\Session;
 use Spatie\LaravelPasskeys\Actions\GeneratePasskeyOptionsAction;
 use Spatie\LaravelPasskeys\Support\Config;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
@@ -26,9 +27,11 @@ class GeneratePasskeyRegisterOptionsController
 
         $serializer = $factory->create();
 
-        $json = $serializer->serialize($options, 'json');
+        $optionsJson = $serializer->serialize($options, 'json');
 
-        return $json;
+        Session::flash('passkey-registration-options', $optionsJson);
+
+        return $optionsJson;
     }
 
     protected function getUser()

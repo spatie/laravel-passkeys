@@ -17,6 +17,8 @@ class GeneratePasskeyOptionsAction
             rp: $this->relatedPartyEntity(),
             user: $this->generateUserEntity($authenticatable),
             challenge: $this->challenge(),
+            // TODO: consider adding selection
+            // authenticatorSelection:
         );
     }
 

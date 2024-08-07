@@ -2,8 +2,18 @@
 
 namespace Spatie\LaravelPasskeys\Models\Concerns;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\LaravelPasskeys\Support\Config;
+
 trait InteractsWithPasskeys
 {
+    public function passkeys(): HasMany
+    {
+        $passkeyModel = Config::getPassKeyModel();
+
+        return $this->hasMany($passkeyModel, 'authenticatable_id');
+    }
+
     public function getPasskeyName(): string
     {
         return $this->email;

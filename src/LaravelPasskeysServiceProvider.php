@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyRegisterOptionsController;
+use Spatie\LaravelPasskeys\Http\Controllers\StorePasskeyController;
 
 class LaravelPasskeysServiceProvider extends PackageServiceProvider
 {
@@ -25,6 +26,7 @@ class LaravelPasskeysServiceProvider extends PackageServiceProvider
         Route::macro('passkeys', function (string $prefix = 'passkeys') {
             Route::prefix($prefix)->group(function () {
                 Route::get('register', GeneratePasskeyRegisterOptionsController::class)->name('passkeys.register');
+                Route::post('/', StorePasskeyController::class)->name('passkeys.store');
             });
         });
 
