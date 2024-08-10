@@ -41,13 +41,20 @@ class Config
         return config('passkeys.relying_party.icon');
     }
 
-    public static function getAction(string $actionName, string $actionBaseClass): string
+    public static function getActionClass(string $actionName, string $actionBaseClass): string
     {
         $actionClass = config("passkeys.actions.{$actionName}");
 
         self::ensureValidActionClass($actionName, $actionBaseClass, $actionClass);
 
         return config("passkeys.actions.{$actionName}");
+    }
+
+    public static function getAction(string $actionName, string $actionBaseClass)
+    {
+        $actionClass = self::getActionClass($actionName, $actionBaseClass);
+
+        return new $actionClass();
     }
 
     protected static function ensureValidActionClass(string $actionName, string $actionBaseClass, string $actionClass): void

@@ -17,6 +17,7 @@ class StorePasskeyController
 {
     public function __invoke(Request $request)
     {
+
         $data = $request->validate([
             'passkey' => ['required', 'json'],
         ]);
@@ -38,7 +39,6 @@ class StorePasskeyController
         }
 
         $csmFactory = new CeremonyStepManagerFactory;
-
         $creationCsm = $csmFactory->creationCeremony();
 
         $publicKeyCredentialSource = AuthenticatorAttestationResponseValidator::create($creationCsm)->check(
@@ -52,5 +52,7 @@ class StorePasskeyController
             'credential_id' => $publicKeyCredentialSource->publicKeyCredentialId,
             'data' => $publicKeyCredentialSource,
         ]);
+
+        ray('passkey created');
     }
 }

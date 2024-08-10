@@ -3,10 +3,12 @@
 namespace Spatie\LaravelPasskeys;
 
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyRegisterOptionsController;
 use Spatie\LaravelPasskeys\Http\Controllers\StorePasskeyController;
+use Spatie\LaravelPasskeys\Livewire\PasskeysComponent;
 
 class LaravelPasskeysServiceProvider extends PackageServiceProvider
 {
@@ -18,7 +20,9 @@ class LaravelPasskeysServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasMigration('create_passkeys_table');
 
-        $this->registerPasskeyRoutes();
+        $this
+            ->registerPasskeyRoutes()
+            ->registerLivewireComponent();
     }
 
     protected function registerPasskeyRoutes(): self
@@ -31,5 +35,11 @@ class LaravelPasskeysServiceProvider extends PackageServiceProvider
         });
 
         return $this;
+    }
+
+    public function registerLivewireComponent()
+    {
+
+       Livewire::component('passkeys', PasskeysComponent::class);
     }
 }

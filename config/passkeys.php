@@ -8,11 +8,12 @@ return [
     ],
 
     'models' => [
-        'passkey' => \Spatie\LaravelPasskeys\Models\Passkey::class,
+        'passkey' => Spatie\LaravelPasskeys\Models\Passkey::class,
         'authenticatable' => env('AUTH_MODEL', App\Models\User::class),
     ],
 
     'actions' => [
-        'generate_passkey_options' => \Spatie\LaravelPasskeys\Actions\GeneratePasskeyOptionsAction::class,
+        'generate_passkey_options' => Spatie\LaravelPasskeys\Actions\GeneratePasskeyOptionsAction::class,
+        'store_passkey' => Spatie\LaravelPasskeys\Actions\StorePasskeyAction::class,
     ],
 ];
