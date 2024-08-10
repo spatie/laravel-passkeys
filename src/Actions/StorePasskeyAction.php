@@ -2,8 +2,6 @@
 
 namespace Spatie\LaravelPasskeys\Actions;
 
-use Illuminate\Support\Facades\Session;
-use Illuminate\Validation\ValidationException;
 use Spatie\LaravelPasskeys\Exceptions\InvalidPasskey;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Models\Passkey;
@@ -25,8 +23,7 @@ class StorePasskeyAction
         PublicKeyCredentialCreationOptions $passkeyOptions,
         string $hostName,
         array $additionalProperties = [],
-    ): Passkey
-    {
+    ): Passkey {
         ray()->newScreen('StorePasskeyAction');
 
         $publicKeyCredentialSource = $this->determinePublicKeyCredentialSource(
@@ -46,8 +43,7 @@ class StorePasskeyAction
         string $passkeyJson,
         PublicKeyCredentialCreationOptions $passkeyOptions,
         string $hostName
-    ): PublicKeyCredentialSource
-    {
+    ): PublicKeyCredentialSource {
         ray('starting action');
 
         if (! json_validate($passkeyJson)) {
@@ -59,7 +55,7 @@ class StorePasskeyAction
             ->create()
             ->deserialize($passkeyJson, PublicKeyCredential::class, 'json');
 
-        if (!$publicKeyCredential->response instanceof AuthenticatorAttestationResponse) {
+        if (! $publicKeyCredential->response instanceof AuthenticatorAttestationResponse) {
             throw InvalidPasskey::invalidPublicKeyCredential();
         }
 
@@ -79,7 +75,6 @@ class StorePasskeyAction
         } catch (Throwable $exception) {
             ray('in exception block')->red();
             throw $exception;
-
             throw InvalidPasskey::invalidAuthenticatorAttestationResponse($exception);
         }
 

@@ -5,9 +5,6 @@ namespace Spatie\LaravelPasskeys\Http\Controllers;
 use Illuminate\Support\Facades\Session;
 use Spatie\LaravelPasskeys\Actions\GeneratePasskeyOptionsAction;
 use Spatie\LaravelPasskeys\Support\Config;
-use Webauthn\AttestationStatement\AttestationStatementSupportManager;
-use Webauthn\AttestationStatement\NoneAttestationStatementSupport;
-use Webauthn\Denormalizer\WebauthnSerializerFactory;
 
 class GeneratePasskeyRegisterOptionsController
 {

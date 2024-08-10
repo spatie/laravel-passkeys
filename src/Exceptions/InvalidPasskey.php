@@ -4,7 +4,6 @@ namespace Spatie\LaravelPasskeys\Exceptions;
 
 use Exception;
 use Throwable;
-use Webauthn\AuthenticatorAttestationResponseValidator;
 
 class InvalidPasskey extends Exception
 {

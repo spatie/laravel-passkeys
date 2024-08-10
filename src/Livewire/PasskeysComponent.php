@@ -58,10 +58,9 @@ class PasskeysComponent extends Component
         $this->clearForm();
     }
 
-
     public function deletePasskey(int $passkeyId): void
     {
-        $this->currentUser()->passkeys()->where('id',$passkeyId)->delete();
+        $this->currentUser()->passkeys()->where('id', $passkeyId)->delete();
     }
 
     public function currentUser(): Authenticatable&HasPasskeys
@@ -84,6 +83,6 @@ class PasskeysComponent extends Component
         /** @var GeneratePasskeyOptionsAction $generatePassKeyOptionsAction */
         $generatePassKeyOptionsAction = Config::getAction('generate_passkey_options', GeneratePasskeyOptionsAction::class);
 
-        return $generatePassKeyOptionsAction->execute($this->currentUser(),$asJson);
+        return $generatePassKeyOptionsAction->execute($this->currentUser(), $asJson);
     }
 }
