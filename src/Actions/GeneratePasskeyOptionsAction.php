@@ -5,6 +5,7 @@ namespace Spatie\LaravelPasskeys\Actions;
 use Illuminate\Support\Str;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Support\Config;
+use Spatie\LaravelPasskeys\Support\Serializer;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
 use Webauthn\AttestationStatement\NoneAttestationStatementSupport;
 use Webauthn\Denormalizer\WebauthnSerializerFactory;
@@ -28,7 +29,7 @@ class GeneratePasskeyOptionsAction
         );
 
         if ($asJson) {
-            $options = $this->convertToJson($options);
+            $options = Serializer::make()->toJson($options);
         }
 
         return $options;
@@ -55,17 +56,5 @@ class GeneratePasskeyOptionsAction
     protected function challenge(): string
     {
         return Str::random();
-    }
-
-    protected function convertToJson(PublicKeyCredentialCreationOptions $options): string
-    {
-        $attestationStatementSupportManager = AttestationStatementSupportManager::create();
-        $attestationStatementSupportManager->add(NoneAttestationStatementSupport::create());
-
-        $factory = new WebauthnSerializerFactory($attestationStatementSupportManager);
-
-        $serializer = $factory->create();
-
-        return $serializer->serialize($options, 'json');
     }
 }

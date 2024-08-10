@@ -5,6 +5,7 @@ namespace Spatie\LaravelPasskeys\Actions;
 use Spatie\LaravelPasskeys\Exceptions\InvalidPasskey;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Models\Passkey;
+use Spatie\LaravelPasskeys\Support\Serializer;
 use Throwable;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
 use Webauthn\AttestationStatement\NoneAttestationStatementSupport;
@@ -54,23 +55,17 @@ class StorePasskeyAction
             throw InvalidPasskey::invalidJson();
         }
 
-        $attestationStatementSupportManager = AttestationStatementSupportManager::create();
-        $attestationStatementSupportManager->add(NoneAttestationStatementSupport::create());
-
-        $factory = new WebauthnSerializerFactory($attestationStatementSupportManager);
-
-        $serializer = $factory->create();
-
-        $passkeyOptions = $serializer->deserialize(
+        /** @var PublicKeyCredentialCreationOptions $passkeyOptions */
+        $passkeyOptions = Serializer::make()->fromJson(
             $passkeyOptionsJson,
-            PublicKeyCredentialCreationOptions::class,
-            'json',
+            PublicKeyCredentialCreationOptions::class
         );
 
         /** @var PublicKeyCredential $publicKeyCredential */
-        $publicKeyCredential = (new WebauthnSerializerFactory(AttestationStatementSupportManager::create()))
-            ->create()
-            ->deserialize($passkeyJson, PublicKeyCredential::class, 'json');
+        $publicKeyCredential = Serializer::make()->fromJson(
+            $passkeyJson,
+            PublicKeyCredential::class
+        );
 
         if (! $publicKeyCredential->response instanceof AuthenticatorAttestationResponse) {
             throw InvalidPasskey::invalidPublicKeyCredential();
@@ -79,10 +74,6 @@ class StorePasskeyAction
         $csmFactory = new CeremonyStepManagerFactory;
         $creationCsm = $csmFactory->creationCeremony();
 
-        ray('response', $publicKeyCredential->response);
-        ray('options', $passkeyOptions);
-        ray('host', $hostName);
-
         try {
             $publicKeyCredentialSource = AuthenticatorAttestationResponseValidator::create($creationCsm)->check(
                 authenticatorAttestationResponse: $publicKeyCredential->response,
@@ -90,8 +81,6 @@ class StorePasskeyAction
                 host: $hostName,
             );
         } catch (Throwable $exception) {
-            ray('in exception block')->red();
-            throw $exception;
             throw InvalidPasskey::invalidAuthenticatorAttestationResponse($exception);
         }
 

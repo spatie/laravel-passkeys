@@ -66,9 +66,7 @@ class PasskeysComponent extends Component
 
     public function currentUser(): Authenticatable&HasPasskeys
     {
-        /**
-         * @var Authenticatable&HasPasskeys $user
-         */
+        /** @var Authenticatable&HasPasskeys $user */
         $user = auth()->user();
 
         return $user;
