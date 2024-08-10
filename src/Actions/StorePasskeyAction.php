@@ -9,6 +9,7 @@ use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Models\Passkey;
 use Throwable;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
+use Webauthn\AttestationStatement\NoneAttestationStatementSupport;
 use Webauthn\AuthenticatorAttestationResponse;
 use Webauthn\AuthenticatorAttestationResponseValidator;
 use Webauthn\CeremonyStep\CeremonyStepManagerFactory;
@@ -22,7 +23,7 @@ class StorePasskeyAction
     public function execute(
         HasPasskeys $authenticatable,
         string $passkeyJson,
-        PublicKeyCredentialCreationOptions $passkeyOptions,
+        string $passkeyOptionsJson,
         string $hostName,
         array $additionalProperties = [],
     ): Passkey
@@ -31,12 +32,11 @@ class StorePasskeyAction
 
         $publicKeyCredentialSource = $this->determinePublicKeyCredentialSource(
             $passkeyJson,
-            $passkeyOptions,
+            $passkeyOptionsJson,
             $hostName
         );
 
-        ray('storing...')->green();
-        $authenticatable->passkeys()->create([
+        return $authenticatable->passkeys()->create([
             ...$additionalProperties,
             'data' => $publicKeyCredentialSource,
         ]);
@@ -44,7 +44,7 @@ class StorePasskeyAction
 
     protected function determinePublicKeyCredentialSource(
         string $passkeyJson,
-        PublicKeyCredentialCreationOptions $passkeyOptions,
+        string $passkeyOptionsJson,
         string $hostName
     ): PublicKeyCredentialSource
     {
@@ -53,6 +53,23 @@ class StorePasskeyAction
         if (! json_validate($passkeyJson)) {
             throw InvalidPasskey::invalidJson();
         }
+
+        if (! json_validate($passkeyOptionsJson)) {
+            throw InvalidPasskey::invalidJson();
+        }
+
+        $attestationStatementSupportManager = AttestationStatementSupportManager::create();
+        $attestationStatementSupportManager->add(NoneAttestationStatementSupport::create());
+
+        $factory = new WebauthnSerializerFactory($attestationStatementSupportManager);
+
+        $serializer = $factory->create();
+
+        $passkeyOptions = $serializer->deserialize(
+            $passkeyOptionsJson,
+            PublicKeyCredentialCreationOptions::class,
+            'json',
+        );
 
         /** @var PublicKeyCredential $publicKeyCredential */
         $publicKeyCredential = (new WebauthnSerializerFactory(AttestationStatementSupportManager::create()))

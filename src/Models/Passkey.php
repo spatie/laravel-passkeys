@@ -31,7 +31,8 @@ class Passkey extends Model
                 ->deserialize($value, PublicKeyCredentialSource::class, 'json'),
             set: fn (PublicKeyCredentialSource $value) => [
                 'credential_id' => $value->publicKeyCredentialId,
-                'data' => json_encode($value),
+                'data' => (new WebauthnSerializerFactory(AttestationStatementSupportManager::create()))
+                    ->create()->serialize($value, 'json'),
             ],
         );
     }

@@ -14,7 +14,10 @@ use Webauthn\PublicKeyCredentialUserEntity;
 
 class GeneratePasskeyOptionsAction
 {
-    public function execute(HasPasskeys $authenticatable, bool $asJson = false): string|PublicKeyCredentialCreationOptions
+    public function execute(
+        HasPasskeys $authenticatable,
+        bool $asJson = true,
+    ): string|PublicKeyCredentialCreationOptions
     {
         $options = new PublicKeyCredentialCreationOptions(
             rp: $this->relatedPartyEntity(),

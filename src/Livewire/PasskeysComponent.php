@@ -31,7 +31,7 @@ class PasskeysComponent extends Component
         ray('validate passkey properties');
 
         $this->dispatch('passkeyPropertiesValidated', [
-            'passkeyOptions' => json_decode($this->generatePasskeyOptions(asJson: true)),
+            'passkeyOptions' => json_decode($this->generatePasskeyOptions()),
         ]);
     }
 
@@ -44,7 +44,7 @@ class PasskeysComponent extends Component
         try {
             $storePasskeyAction->execute(
                 $this->currentUser(),
-                $passkey, $this->generatePasskeyOptions(),
+                $passkey, $this->previouslyGeneratedPasskeyOptions(),
                 request()->getHost(),
                 ['name' => $this->name]
             );
@@ -79,11 +79,20 @@ class PasskeysComponent extends Component
         $this->name = '';
     }
 
-    protected function generatePasskeyOptions(bool $asJson = false): string|PublicKeyCredentialCreationOptions
+    protected function generatePasskeyOptions(): string
     {
         /** @var GeneratePasskeyOptionsAction $generatePassKeyOptionsAction */
         $generatePassKeyOptionsAction = Config::getAction('generate_passkey_options', GeneratePasskeyOptionsAction::class);
 
-        return $generatePassKeyOptionsAction->execute($this->currentUser(),$asJson);
+        $options =  $generatePassKeyOptionsAction->execute($this->currentUser());
+
+        session()->put('passkey-registration-options', $options);
+
+        return $options;
+    }
+
+    protected function previouslyGeneratedPasskeyOptions(): ?string
+    {
+        return session()->pull('passkey-registration-options');
     }
 }
