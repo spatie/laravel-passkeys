@@ -54,7 +54,7 @@ class Config
     {
         $actionClass = self::getActionClass($actionName, $actionBaseClass);
 
-        return new $actionClass();
+        return new $actionClass;
     }
 
     protected static function ensureValidActionClass(string $actionName, string $actionBaseClass, string $actionClass): void

@@ -40,6 +40,6 @@ class LaravelPasskeysServiceProvider extends PackageServiceProvider
     public function registerLivewireComponent()
     {
 
-       Livewire::component('passkeys', PasskeysComponent::class);
+        Livewire::component('passkeys', PasskeysComponent::class);
     }
 }
