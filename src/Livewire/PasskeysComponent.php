@@ -12,7 +12,6 @@ use Spatie\LaravelPasskeys\Actions\StorePasskeyAction;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Support\Config;
 use Throwable;
-use Webauthn\PublicKeyCredentialCreationOptions;
 
 class PasskeysComponent extends Component
 {
@@ -58,10 +57,9 @@ class PasskeysComponent extends Component
         $this->clearForm();
     }
 
-
     public function deletePasskey(int $passkeyId): void
     {
-        $this->currentUser()->passkeys()->where('id',$passkeyId)->delete();
+        $this->currentUser()->passkeys()->where('id', $passkeyId)->delete();
     }
 
     public function currentUser(): Authenticatable&HasPasskeys
@@ -82,7 +80,7 @@ class PasskeysComponent extends Component
         /** @var GeneratePasskeyOptionsAction $generatePassKeyOptionsAction */
         $generatePassKeyOptionsAction = Config::getAction('generate_passkey_options', GeneratePasskeyOptionsAction::class);
 
-        $options =  $generatePassKeyOptionsAction->execute($this->currentUser());
+        $options = $generatePassKeyOptionsAction->execute($this->currentUser());
 
         session()->put('passkey-registration-options', $options);
 

@@ -18,8 +18,7 @@ class GeneratePasskeyOptionsAction
     public function execute(
         HasPasskeys $authenticatable,
         bool $asJson = true,
-    ): string|PublicKeyCredentialCreationOptions
-    {
+    ): string|PublicKeyCredentialCreationOptions {
         $options = new PublicKeyCredentialCreationOptions(
             rp: $this->relatedPartyEntity(),
             user: $this->generateUserEntity($authenticatable),
