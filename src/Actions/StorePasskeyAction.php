@@ -65,9 +65,6 @@ class StorePasskeyAction
         return $publicKeyCredentialSource;
     }
 
-    /**
-     * @throws \Spatie\LaravelPasskeys\Exceptions\InvalidPasskeyOptions
-     */
     protected function getPasskeyOptions(string $passkeyOptionsJson): PublicKeyCredentialCreationOptions
     {
         if (! json_validate($passkeyOptionsJson)) {
@@ -83,9 +80,6 @@ class StorePasskeyAction
         return $passkeyOptions;
     }
 
-    /**
-     * @throws \Spatie\LaravelPasskeys\Exceptions\InvalidPasskey
-     */
     protected function getPasskey(string $passkeyJson): PublicKeyCredential
     {
         if (! json_validate($passkeyJson)) {
