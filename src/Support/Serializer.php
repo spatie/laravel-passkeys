@@ -20,9 +20,7 @@ class Serializer
 
     public function __construct(
         protected SymfonySerializer $serializer,
-    )
-    {
-    }
+    ) {}
 
     public function toJson(mixed $value): string
     {
@@ -30,10 +28,7 @@ class Serializer
     }
 
     /**
-     * @param string $value
-     * @param string<class-string> $desiredClass
-     *
-     * @return mixed
+     * @param  string<class-string>  $desiredClass
      */
     public function fromJson(string $value, string $desiredClass): mixed
     {
