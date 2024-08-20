@@ -6,14 +6,13 @@ use Illuminate\Support\Facades\Session;
 use Spatie\LaravelPasskeys\Actions\GeneratePasskeyOptionsAction;
 use Spatie\LaravelPasskeys\Support\Config;
 
-class GeneratePasskeyRegisterOptionsController
+class GeneratePasskeyAuthenticationOptionsController
 {
     public function __invoke()
     {
-        $actionClass = Config::getActionClass('generate_passkey_options', GeneratePasskeyOptionsAction::class);
-
         /** @var GeneratePasskeyOptionsAction $action */
-        $action = new $actionClass;
+
+        $action = Config::getAction('generate_passkey_options', GeneratePasskeyOptionsAction::class);
 
         $options = $action->execute($this->getUser());
 

@@ -3,6 +3,7 @@
 namespace Spatie\LaravelPasskeys\Actions;
 
 use Spatie\LaravelPasskeys\Exceptions\InvalidPasskey;
+use Spatie\LaravelPasskeys\Exceptions\InvalidPasskeyOptions;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Models\Passkey;
 use Spatie\LaravelPasskeys\Support\Serializer;
@@ -43,29 +44,11 @@ class StorePasskeyAction
     protected function determinePublicKeyCredentialSource(
         string $passkeyJson,
         string $passkeyOptionsJson,
-        string $hostName
+        string $hostName,
     ): PublicKeyCredentialSource {
-        ray('starting action');
+        $passkeyOptions = $this->getPasskeyOptions($passkeyOptionsJson);
 
-        if (! json_validate($passkeyJson)) {
-            throw InvalidPasskey::invalidJson();
-        }
-
-        if (! json_validate($passkeyOptionsJson)) {
-            throw InvalidPasskey::invalidJson();
-        }
-
-        /** @var PublicKeyCredentialCreationOptions $passkeyOptions */
-        $passkeyOptions = Serializer::make()->fromJson(
-            $passkeyOptionsJson,
-            PublicKeyCredentialCreationOptions::class
-        );
-
-        /** @var PublicKeyCredential $publicKeyCredential */
-        $publicKeyCredential = Serializer::make()->fromJson(
-            $passkeyJson,
-            PublicKeyCredential::class
-        );
+        $publicKeyCredential = $this->getPasskey($passkeyJson);
 
         if (! $publicKeyCredential->response instanceof AuthenticatorAttestationResponse) {
             throw InvalidPasskey::invalidPublicKeyCredential();
@@ -85,5 +68,45 @@ class StorePasskeyAction
         }
 
         return $publicKeyCredentialSource;
+    }
+
+    /**
+     * @param string $passkeyOptionsJson
+     *
+     * @return \Webauthn\PublicKeyCredentialCreationOptions
+     * @throws \Spatie\LaravelPasskeys\Exceptions\InvalidPasskeyOptions
+     */
+    protected function getPasskeyOptions(string $passkeyOptionsJson): PublicKeyCredentialCreationOptions
+    {
+        if (!json_validate($passkeyOptionsJson)) {
+            throw InvalidPasskeyOptions::invalidJson();
+        }
+
+        /** @var PublicKeyCredentialCreationOptions $passkeyOptions */
+        $passkeyOptions = Serializer::make()->fromJson(
+            $passkeyOptionsJson,
+            PublicKeyCredentialCreationOptions::class
+        );
+        return $passkeyOptions;
+    }
+
+    /**
+     * @param string $passkeyJson
+     *
+     * @return \Webauthn\PublicKeyCredential
+     * @throws \Spatie\LaravelPasskeys\Exceptions\InvalidPasskey
+     */
+    protected function getPasskey(string $passkeyJson): PublicKeyCredential
+    {
+        if (!json_validate($passkeyJson)) {
+            throw InvalidPasskey::invalidJson();
+        }
+
+        /** @var PublicKeyCredential $publicKeyCredential */
+        $publicKeyCredential = Serializer::make()->fromJson(
+            $passkeyJson,
+            PublicKeyCredential::class
+        );
+        return $publicKeyCredential;
     }
 }

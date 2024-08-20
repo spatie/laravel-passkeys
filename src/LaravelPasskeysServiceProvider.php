@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyRegisterOptionsController;
+use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyAuthenticationOptionsController;
 use Spatie\LaravelPasskeys\Http\Controllers\StorePasskeyController;
 use Spatie\LaravelPasskeys\Livewire\PasskeysComponent;
 
@@ -21,15 +21,15 @@ class LaravelPasskeysServiceProvider extends PackageServiceProvider
             ->hasMigration('create_passkeys_table');
 
         $this
-            ->registerPasskeyRoutes()
+            ->registerPasskeyRouteMacro()
             ->registerLivewireComponent();
     }
 
-    protected function registerPasskeyRoutes(): self
+    protected function registerPasskeyRouteMacro(): self
     {
         Route::macro('passkeys', function (string $prefix = 'passkeys') {
             Route::prefix($prefix)->group(function () {
-                Route::get('register', GeneratePasskeyRegisterOptionsController::class)->name('passkeys.register');
+                Route::get('register', GeneratePasskeyAuthenticationOptionsController::class)->name('passkeys.register');
                 Route::post('/', StorePasskeyController::class)->name('passkeys.store');
             });
         });
