@@ -68,14 +68,11 @@ class StorePasskeyAction
     }
 
     /**
-     * @param string $passkeyOptionsJson
-     *
-     * @return \Webauthn\PublicKeyCredentialCreationOptions
      * @throws \Spatie\LaravelPasskeys\Exceptions\InvalidPasskeyOptions
      */
     protected function getPasskeyOptions(string $passkeyOptionsJson): PublicKeyCredentialCreationOptions
     {
-        if (!json_validate($passkeyOptionsJson)) {
+        if (! json_validate($passkeyOptionsJson)) {
             throw InvalidPasskeyOptions::invalidJson();
         }
 
@@ -84,18 +81,16 @@ class StorePasskeyAction
             $passkeyOptionsJson,
             PublicKeyCredentialCreationOptions::class
         );
+
         return $passkeyOptions;
     }
 
     /**
-     * @param string $passkeyJson
-     *
-     * @return \Webauthn\PublicKeyCredential
      * @throws \Spatie\LaravelPasskeys\Exceptions\InvalidPasskey
      */
     protected function getPasskey(string $passkeyJson): PublicKeyCredential
     {
-        if (!json_validate($passkeyJson)) {
+        if (! json_validate($passkeyJson)) {
             throw InvalidPasskey::invalidJson();
         }
 
@@ -104,6 +99,7 @@ class StorePasskeyAction
             $passkeyJson,
             PublicKeyCredential::class
         );
+
         return $publicKeyCredential;
     }
 }
