@@ -24,8 +24,6 @@ class StorePasskeyAction
         string $hostName,
         array $additionalProperties = [],
     ): Passkey {
-        ray()->newScreen('StorePasskeyAction');
-
         $publicKeyCredentialSource = $this->determinePublicKeyCredentialSource(
             $passkeyJson,
             $passkeyOptionsJson,

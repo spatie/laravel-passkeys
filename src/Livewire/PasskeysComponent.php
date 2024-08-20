@@ -27,8 +27,6 @@ class PasskeysComponent extends Component
 
     public function validatePasskeyProperties(): void
     {
-        ray('validate passkey properties');
-
         $this->dispatch('passkeyPropertiesValidated', [
             'passkeyOptions' => json_decode($this->generatePasskeyOptions()),
         ]);
@@ -36,7 +34,6 @@ class PasskeysComponent extends Component
 
     public function storePasskey(string $passkey): void
     {
-        ray('passkey', $passkey);
         /** @var \Spatie\LaravelPasskeys\Actions\StorePasskeyAction $storePasskeyAction */
         $storePasskeyAction = Config::getAction('store_passkey', StorePasskeyAction::class);
 
