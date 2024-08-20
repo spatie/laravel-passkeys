@@ -76,10 +76,7 @@
         "laravel": {
             "providers": [
                 "Spatie\\LaravelPasskeys\\LaravelPasskeysServiceProvider"
-            ],
-            "aliases": {
-                "LaravelPasskeys": "Spatie\\LaravelPasskeys\\Facades\\LaravelPasskeys"
-            }
+            ]
         }
     },
     "minimum-stability": "dev",
