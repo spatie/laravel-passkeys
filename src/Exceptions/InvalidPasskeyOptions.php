@@ -3,7 +3,6 @@
 namespace Spatie\LaravelPasskeys\Exceptions;
 
 use Exception;
-use Throwable;
 
 class InvalidPasskeyOptions extends Exception
 {

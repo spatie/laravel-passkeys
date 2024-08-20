@@ -11,7 +11,6 @@ class GeneratePasskeyAuthenticationOptionsController
     public function __invoke()
     {
         /** @var GeneratePasskeyOptionsAction $action */
-
         $action = Config::getAction('generate_passkey_options', GeneratePasskeyOptionsAction::class);
 
         $options = $action->execute($this->getUser());
