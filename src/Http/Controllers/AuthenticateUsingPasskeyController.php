@@ -56,8 +56,8 @@ class AuthenticateUsingPasskeyController
 
     public function validPasskeyResponse(Request $request): RedirectResponse
     {
-        $url = $request->has('redirect')
-            ? $request->get('redirect')
+        $url = Session::has('passkeys.redirect')
+            ? Session::pull('passkeys.redirect')
             : config('passkeys.redirect_to_after_login');
 
         return redirect($url);
