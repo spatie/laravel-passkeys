@@ -9,6 +9,6 @@ class AuthenticatePasskeyComponent extends Component
 {
     public function render(): View
     {
-        return view('passkeys::livewire.authenticatePasskeysScript');
+        return view('passkeys::components.authenticate');
     }
 }
