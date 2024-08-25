@@ -3,10 +3,6 @@
 namespace Spatie\LaravelPasskeys\Actions;
 
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Validation\ValidationException;
-use Mockery\Generator\StringManipulation\Pass\Pass;
-use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Models\Passkey;
 use Spatie\LaravelPasskeys\Support\Config;
 use Spatie\LaravelPasskeys\Support\Serializer;
@@ -23,8 +19,7 @@ class FindAuthenticatableUsingPasskeyAction
     public function execute(
         string $publicKeyCredentialJson,
         string $passkeyOptionsJson,
-    ): ?Authenticatable
-    {
+    ): ?Authenticatable {
         $publicKeyCredential = $this->determinePublicKeyCredential($publicKeyCredentialJson);
 
         if (! $publicKeyCredential) {
@@ -60,8 +55,7 @@ class FindAuthenticatableUsingPasskeyAction
 
     public function determinePublicKeyCredential(
         string $publicKeyCredentialJson,
-    ): ?PublicKeyCredential
-    {
+    ): ?PublicKeyCredential {
         $publicKeyCredential = Serializer::make()->fromJson(
             $publicKeyCredentialJson,
             PublicKeyCredential::class,
@@ -85,8 +79,7 @@ class FindAuthenticatableUsingPasskeyAction
         PublicKeyCredential $publicKeyCredential,
         PublicKeyCredentialRequestOptions $passkeyOptions,
         Passkey $passkey,
-    ): ?PublicKeyCredentialSource
-    {
+    ): ?PublicKeyCredentialSource {
         $csmFactory = new CeremonyStepManagerFactory;
         $requestCsm = $csmFactory->requestCeremony();
 

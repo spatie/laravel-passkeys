@@ -4,7 +4,6 @@ namespace Spatie\LaravelPasskeys\Http\Controllers;
 
 use Illuminate\Support\Facades\Session;
 use Spatie\LaravelPasskeys\Actions\GeneratePasskeyAuthenticationOptionsAction;
-use Spatie\LaravelPasskeys\Actions\GeneratePasskeyRegisterOptionsAction;
 use Spatie\LaravelPasskeys\Support\Config;
 
 class GeneratePasskeyAuthenticationOptionsController
