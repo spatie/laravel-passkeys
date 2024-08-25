@@ -1,26 +1,19 @@
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    async function authenticateWithPasskey() {
+        const response = await fetch('{{ route('passkeys.authentication_options') }}')
 
-        if (! browserSupportsWebAuthn()) {
-            return;
-        }
+        const options = await response.json();
 
-        async function authenticateWithPasskey() {
-            const response = await fetch('{{ route('passkeys.authentication_options') }}')
+        const answer = await startAuthentication(options);
 
-            const options = await response.json();
+        const form = document.getElementById('passkey-login-form');
 
-            const answer = await startAuthentication(options);
+        form.addEventListener('formdata', ({formData}) => {
+            formData.set('answer', JSON.stringify(answer));
+        });
 
-            const form = document.getElementById('passkey-login-form');
+        form.submit();
+    }
 
-            form.addEventListener('formdata', ({formData}) => {
-                formData.set('answer', JSON.stringify(answer));
-            });
 
-            form.submit();
-        }
-
-        authenticateWithPasskey();
-    });
 </script>
