@@ -18,12 +18,12 @@ use Webauthn\PublicKeyCredential;
 use Webauthn\PublicKeyCredentialRequestOptions;
 use Webauthn\PublicKeyCredentialSource;
 
-class FindAuthenticatableUsingPasskeyAction
+class FindPasskeyAction
 {
     public function execute(
         string $publicKeyCredentialJson,
         string $passkeyOptionsJson,
-    ): ?Authenticatable
+    ): ?Passkey
     {
         $publicKeyCredential = $this->determinePublicKeyCredential($publicKeyCredentialJson);
 
@@ -55,7 +55,7 @@ class FindAuthenticatableUsingPasskeyAction
 
         $passkey->update(['data' => $publicKeyCredentialSource]);
 
-        return $passkey->authenticatable;
+        return $passkey;
     }
 
     public function determinePublicKeyCredential(

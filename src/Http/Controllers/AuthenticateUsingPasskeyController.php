@@ -6,7 +6,8 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Spatie\LaravelPasskeys\Actions\FindAuthenticatableUsingPasskeyAction;
+use Spatie\LaravelPasskeys\Actions\FindPasskeyAction;
+use Spatie\LaravelPasskeys\Events\PasskeyUsedToAuthenticateEvent;
 use Spatie\LaravelPasskeys\Http\Requests\AuthenticateUsingPasskeysRequest;
 use Spatie\LaravelPasskeys\Support\Config;
 
@@ -15,23 +16,31 @@ class AuthenticateUsingPasskeyController
     public function __invoke(AuthenticateUsingPasskeysRequest $request)
     {
         /**
-         * @var FindAuthenticatableUsingPasskeyAction $findAuthenticatableUsingPasskey
+         * @var FindPasskeyAction $findAuthenticatableUsingPasskey
          */
         $findAuthenticatableUsingPasskey = Config::getAction(
-            'find_authenticatable_using_passkey',
-            FindAuthenticatableUsingPasskeyAction::class
+            'find_passkey',
+            FindPasskeyAction::class
         );
 
-        $authenticatable = $findAuthenticatableUsingPasskey->execute(
+        $passkey = $findAuthenticatableUsingPasskey->execute(
             $request->get('answer'),
             Session::get('passkey-authentication-options'),
         );
+
+        if (! $passkey) {
+            return $this->invalidPasskeyResponse();
+        }
+
+        $authenticatable = $passkey->authenticatable;
 
         if (! $authenticatable) {
             return $this->invalidPasskeyResponse();
         }
 
         $this->logInAuthenticatable($authenticatable);
+
+        event(new PasskeyUsedToAuthenticateEvent($passkey));
 
         return $this->validPasskeyResponse($request);
     }
