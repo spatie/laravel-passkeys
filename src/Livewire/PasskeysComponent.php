@@ -7,7 +7,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
-use Spatie\LaravelPasskeys\Actions\GeneratePasskeyOptionsAction;
+use Spatie\LaravelPasskeys\Actions\GeneratePasskeyRegisterOptionsAction;
 use Spatie\LaravelPasskeys\Actions\StorePasskeyAction;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Support\Config;
@@ -74,8 +74,8 @@ class PasskeysComponent extends Component
 
     protected function generatePasskeyOptions(): string
     {
-        /** @var GeneratePasskeyOptionsAction $generatePassKeyOptionsAction */
-        $generatePassKeyOptionsAction = Config::getAction('generate_passkey_options', GeneratePasskeyOptionsAction::class);
+        /** @var GeneratePasskeyRegisterOptionsAction $generatePassKeyOptionsAction */
+        $generatePassKeyOptionsAction = Config::getAction('generate_passkey_register_options', GeneratePasskeyRegisterOptionsAction::class);
 
         $options = $generatePassKeyOptionsAction->execute($this->currentUser());
 

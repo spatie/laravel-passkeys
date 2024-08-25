@@ -13,7 +13,9 @@ return [
     ],
 
     'actions' => [
-        'generate_passkey_options' => Spatie\LaravelPasskeys\Actions\GeneratePasskeyOptionsAction::class,
+        'generate_passkey_register_options' => Spatie\LaravelPasskeys\Actions\GeneratePasskeyRegisterOptionsAction::class,
         'store_passkey' => Spatie\LaravelPasskeys\Actions\StorePasskeyAction::class,
+        'generate_passkey_authentication_options' => \Spatie\LaravelPasskeys\Actions\GeneratePasskeyAuthenticationOptionsAction::class,
+
     ],
 ];

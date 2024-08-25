@@ -10,7 +10,7 @@ use Webauthn\PublicKeyCredentialCreationOptions;
 use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialUserEntity;
 
-class GeneratePasskeyOptionsAction
+class GeneratePasskeyRegisterOptionsAction
 {
     public function execute(
         HasPasskeys $authenticatable,

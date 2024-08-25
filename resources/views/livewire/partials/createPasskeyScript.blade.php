@@ -5,8 +5,7 @@
 
             const passkey = await startRegistration(passkeyOptions);
 
-            @this.
-            call('storePasskey', JSON.stringify(passkey));
+            @this.call('storePasskey', JSON.stringify(passkey));
         });
     });
 </script>
