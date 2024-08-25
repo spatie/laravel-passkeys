@@ -8,10 +8,7 @@ use Illuminate\View\View;
 
 class AuthenticatePasskeyComponent extends Component
 {
-    public function __construct(public ?string $redirect = null)
-    {
-
-    }
+    public function __construct(public ?string $redirect = null) {}
 
     public function render(): View
     {
