@@ -2,70 +2,62 @@
 
 namespace Spatie\LaravelPasskeys\Http\Controllers;
 
-use Exception;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Validation\ValidationException;
+use Spatie\LaravelPasskeys\Actions\FindAuthenticatableUsingPasskeyAction;
 use Spatie\LaravelPasskeys\Http\Requests\AuthenticateUsingPasskeysRequest;
-use Spatie\LaravelPasskeys\Models\Passkey;
-use Spatie\LaravelPasskeys\Support\Serializer;
-use Throwable;
-use Webauthn\AuthenticatorAssertionResponseValidator;
-use Webauthn\CeremonyStep\CeremonyStepManagerFactory;
-use Webauthn\PublicKeyCredential;
-use Webauthn\PublicKeyCredentialRequestOptions;
+use Spatie\LaravelPasskeys\Support\Config;
 
 class AuthenticateUsingPasskeyController
 {
     public function __invoke(AuthenticateUsingPasskeysRequest $request)
     {
-        $publicKeyCredential = Serializer::make()->fromJson(
+        /**
+         * @var FindAuthenticatableUsingPasskeyAction $findAuthenticatableUsingPasskey
+         */
+        $findAuthenticatableUsingPasskey = Config::getAction(
+            'find_authenticatable_using_passkey',
+            FindAuthenticatableUsingPasskeyAction::class
+        );
+
+        $authenticatable = $findAuthenticatableUsingPasskey->execute(
             $request->get('answer'),
-            PublicKeyCredential::class
-        );
-
-        /*
-        if (! $publicKeyCredential->response instanceof AuthenticatorAssertionResponse) {
-            return to_route('profile.edit')->withFragment('managePasskeys');
-        }
-        */
-
-        $passkey = Passkey::firstWhere('credential_id', $publicKeyCredential->rawId);
-
-        if (! $passkey) {
-            throw new Exception('This passkey is not valid');
-        }
-
-        $csmFactory = new CeremonyStepManagerFactory;
-        $requestCsm = $csmFactory->requestCeremony();
-
-        /** @var PublicKeyCredentialRequestOptions $passkeyOptions */
-        $passkeyOptions = Serializer::make()->fromJson(
             Session::get('passkey-authentication-options'),
-            PublicKeyCredentialRequestOptions::class
         );
 
-        try {
-            $validator = AuthenticatorAssertionResponseValidator::create($requestCsm);
-
-            $publicKeyCredentialSource = $validator->check(
-                publicKeyCredentialSource: $passkey->data,
-                authenticatorAssertionResponse: $publicKeyCredential->response,
-                publicKeyCredentialRequestOptions: $passkeyOptions,
-                host: $request->getHost(),
-                userHandle: null,
-            );
-        } catch (Throwable $e) {
-            throw ValidationException::withMessages([
-                'answer' => 'This passkey is not valid.'
-            ]);
+        if (! $authenticatable) {
+            return $this->invalidPasskeyResponse();
         }
 
-        $passkey->update(['data' => $publicKeyCredentialSource]);
+        $this->logInAuthenticatable($authenticatable);
 
-        auth()->login($passkey->authenticatable);
+        return $this->validPasskeyResponse($request);
+    }
 
-        $request->session()->regenerate();
+    public function logInAuthenticatable(Authenticatable $authenticatable): self
+    {
+        auth()->login($authenticatable);
 
-        return redirect()->route('dashboard');
+        Session::regenerate();
+
+        return $this;
+    }
+
+    public function validPasskeyResponse(Request $request): RedirectResponse
+    {
+        $url = $request->has('redirect')
+            ? $request->get('redirect')
+            : config('passkeys.redirect_to_after_login');
+
+        return redirect($url);
+    }
+
+    protected function invalidPasskeyResponse(): RedirectResponse
+    {
+        session()->flash('authenticatePasskey::message', __('passkeys::passkeys.invalid'));
+
+        return back();
     }
 }

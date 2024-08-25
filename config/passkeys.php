@@ -1,6 +1,11 @@
 <?php
 
 return [
+    /*
+     * After a successful authentication attempt using a passkey
+     * we'll redirect to this URL.
+     */
+    'redirect_to_after_login' => '/dashboard',
 
     /*
      * These class are responsible for performing core tasks regarding passkeys.
@@ -11,6 +16,7 @@ return [
         'generate_passkey_register_options' => Spatie\LaravelPasskeys\Actions\GeneratePasskeyRegisterOptionsAction::class,
         'store_passkey' => Spatie\LaravelPasskeys\Actions\StorePasskeyAction::class,
         'generate_passkey_authentication_options' => \Spatie\LaravelPasskeys\Actions\GeneratePasskeyAuthenticationOptionsAction::class,
+        'find_authenticatable_using_passkey' => \Spatie\LaravelPasskeys\Actions\FindAuthenticatableUsingPasskeyAction::class,
     ],
 
     'models' => [

@@ -4,8 +4,6 @@ namespace Spatie\LaravelPasskeys;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
-use Illuminate\View\Component;
-use Illuminate\View\View;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -21,8 +19,9 @@ class LaravelPasskeysServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-passkeys')
             ->hasConfigFile()
+            ->hasMigration('create_passkeys_table')
             ->hasViews()
-            ->hasMigration('create_passkeys_table');
+            ->hasTranslations();
 
         $this
             ->registerPasskeyRouteMacro()
@@ -50,9 +49,9 @@ class LaravelPasskeysServiceProvider extends PackageServiceProvider
 
     public function registerComponents(): self
     {
-        Livewire::component('passkeys', PasskeysComponent::class);
-
         Blade::component('authenticate-passkey', AuthenticatePasskeyComponent::class);
+
+        Livewire::component('passkeys', PasskeysComponent::class);
 
         return $this;
     }
