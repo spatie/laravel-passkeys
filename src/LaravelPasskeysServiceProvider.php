@@ -11,7 +11,7 @@ use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\LaravelPasskeys\Http\Components\AuthenticatePasskeyComponent;
 use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyAuthenticationOptionsController;
-use Spatie\LaravelPasskeys\Http\Controllers\LoginWithPasskeyController;
+use Spatie\LaravelPasskeys\Http\Controllers\AuthenticateUsingPasskeyController;
 use Spatie\LaravelPasskeys\Livewire\PasskeysComponent;
 
 class LaravelPasskeysServiceProvider extends PackageServiceProvider
@@ -26,24 +26,32 @@ class LaravelPasskeysServiceProvider extends PackageServiceProvider
 
         $this
             ->registerPasskeyRouteMacro()
-            ->registerLivewireComponent();
+            ->registerComponents();
     }
 
     protected function registerPasskeyRouteMacro(): self
     {
         Route::macro('passkeys', function (string $prefix = 'passkeys') {
             Route::prefix($prefix)->group(function () {
-                Route::get('authentication-options', GeneratePasskeyAuthenticationOptionsController::class)->name('passkeys.authentication_options');
-                Route::post('login', LoginWithPasskeyController::class)->name('passkeys.login');
+                Route::get(
+                    'authentication-options',
+                    GeneratePasskeyAuthenticationOptionsController::class
+                )->name('passkeys.authentication_options');
+
+                Route::post(
+                    'authenticate',
+                    AuthenticateUsingPasskeyController::class
+                )->name('passkeys.login');
             });
         });
 
         return $this;
     }
 
-    public function registerLivewireComponent(): self
+    public function registerComponents(): self
     {
         Livewire::component('passkeys', PasskeysComponent::class);
+
         Blade::component('authenticate-passkey', AuthenticatePasskeyComponent::class);
 
         return $this;

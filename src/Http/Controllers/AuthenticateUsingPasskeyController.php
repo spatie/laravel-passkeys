@@ -2,31 +2,26 @@
 
 namespace Spatie\LaravelPasskeys\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Exception;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
+use Spatie\LaravelPasskeys\Http\Requests\AuthenticateUsingPasskeysRequest;
 use Spatie\LaravelPasskeys\Models\Passkey;
 use Spatie\LaravelPasskeys\Support\Serializer;
-use Webauthn\AttestationStatement\AttestationStatementSupportManager;
-use Webauthn\AuthenticatorAssertionResponse;
+use Throwable;
 use Webauthn\AuthenticatorAssertionResponseValidator;
 use Webauthn\CeremonyStep\CeremonyStepManagerFactory;
-use Webauthn\Denormalizer\WebauthnSerializerFactory;
 use Webauthn\PublicKeyCredential;
-use Webauthn\PublicKeyCredentialCreationOptions;
 use Webauthn\PublicKeyCredentialRequestOptions;
 
-class LoginWithPasskeyController
+class AuthenticateUsingPasskeyController
 {
-    public function __invoke(Request $request)
+    public function __invoke(AuthenticateUsingPasskeysRequest $request)
     {
-        ray()->clearScreen();
-
-        $data = $request->validate(['answer' => ['required', 'json']]);
-
-
-        $publicKeyCredential = Serializer::make()->fromJson($data['answer'], PublicKeyCredential::class);
+        $publicKeyCredential = Serializer::make()->fromJson(
+            $request->get('answer'),
+            PublicKeyCredential::class
+        );
 
         /*
         if (! $publicKeyCredential->response instanceof AuthenticatorAssertionResponse) {
@@ -37,9 +32,8 @@ class LoginWithPasskeyController
         $passkey = Passkey::firstWhere('credential_id', $publicKeyCredential->rawId);
 
         if (! $passkey) {
-            throw new \Exception('This passkey is not valid');
+            throw new Exception('This passkey is not valid');
         }
-
 
         $csmFactory = new CeremonyStepManagerFactory;
         $requestCsm = $csmFactory->requestCeremony();
@@ -60,25 +54,18 @@ class LoginWithPasskeyController
                 host: $request->getHost(),
                 userHandle: null,
             );
-
-            ray('public key credential source determined');
-        } catch (\Throwable $e) {
-            ray('nope', $e->getMessage())->red();
+        } catch (Throwable $e) {
             throw ValidationException::withMessages([
                 'answer' => 'This passkey is not valid.'
             ]);
         }
 
-        ray('valid!!');
-
         $passkey->update(['data' => $publicKeyCredentialSource]);
 
-        ray($passkey->authenticatable);
         auth()->login($passkey->authenticatable);
 
         $request->session()->regenerate();
 
-        ray('logged IN')->green();
         return redirect()->route('dashboard');
     }
 }
