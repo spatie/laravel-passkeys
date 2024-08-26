@@ -2,8 +2,11 @@
 
 namespace Spatie\LaravelPasskeys\Support;
 
+use Illuminate\Auth\Authenticatable;
 use Spatie\LaravelPasskeys\Exceptions\InvalidActionClass;
+use Spatie\LaravelPasskeys\Exceptions\InvalidAuthenticatableModel;
 use Spatie\LaravelPasskeys\Exceptions\InvalidPasskeyModel;
+use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Models\Passkey;
 
 class Config
@@ -27,9 +30,15 @@ class Config
      */
     public static function getAuthenticatableModel(): string
     {
-        // TODO verify that the model is an instance of Authenticatable and that it uses the HasPasskeys trait
+        $authenticatableModel = config('passkeys.models.authenticatable');
 
-        return config('passkeys.models.authenticatable');
+        foreach([Authenticatable::class, HasPasskeys::class] as $trait) {
+            if (! in_array($trait, class_uses_recursive($authenticatableModel))) {
+                throw InvalidAuthenticatableModel::traitMissing($authenticatableModel, $trait);
+            }
+        }
+
+        return $authenticatableModel;
     }
 
     public static function getRelyingPartyName(): string
