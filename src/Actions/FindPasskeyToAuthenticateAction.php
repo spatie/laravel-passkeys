@@ -99,7 +99,6 @@ class FindPasskeyToAuthenticateAction
         return $publicKeyCredentialSource;
     }
 
-
     protected function updatePasskey(
         Passkey $passkey,
         PublicKeyCredentialSource $publicKeyCredentialSource
