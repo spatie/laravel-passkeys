@@ -6,8 +6,8 @@ use Exception;
 
 class InvalidAuthenticatableModel extends Exception
 {
-    public static function traitMissing(string $modelClass, string $traitFqcn): self
+    public static function missingInterface(string $modelClass, string $interfaceFqcn): self
     {
-        return new static("The model `{$modelClass}` does not use the `{$traitFqcn}}` trait.");
+        return new static("The model `{$modelClass}` does not use the `{$interfaceFqcn}` interface.");
     }
 }

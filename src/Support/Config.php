@@ -2,7 +2,7 @@
 
 namespace Spatie\LaravelPasskeys\Support;
 
-use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Spatie\LaravelPasskeys\Exceptions\InvalidActionClass;
 use Spatie\LaravelPasskeys\Exceptions\InvalidAuthenticatableModel;
 use Spatie\LaravelPasskeys\Exceptions\InvalidPasskeyModel;
@@ -32,9 +32,9 @@ class Config
     {
         $authenticatableModel = config('passkeys.models.authenticatable');
 
-        foreach ([Authenticatable::class, HasPasskeys::class] as $trait) {
-            if (! in_array($trait, class_uses_recursive($authenticatableModel))) {
-                throw InvalidAuthenticatableModel::traitMissing($authenticatableModel, $trait);
+        foreach ([Authenticatable::class, HasPasskeys::class] as $interface) {
+            if (! is_a($authenticatableModel, $interface, true)) {
+                throw InvalidAuthenticatableModel::missingInterface($authenticatableModel, $interface);
             }
         }
 
