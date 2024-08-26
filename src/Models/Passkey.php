@@ -21,7 +21,7 @@ class Passkey extends Model
     public function casts(): array
     {
         return [
-            'last_used_at' => 'timestamp',
+            'last_used_at' => 'datetime',
         ];
     }
 
