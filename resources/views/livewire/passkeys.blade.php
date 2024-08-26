@@ -1,34 +1,36 @@
 <div>
-    <div>
-        Let's create a passkey
-    </div>
+    <h1>Passkeys</h1>
     <div class="mt-2">
-        <form id="passkeyForm" wire:submit="validatePasskeyProperties">
+        <form id="passkeyForm" wire:submit="validatePasskeyProperties" class="flex items-center space-x-2">
             <div>
-                <label for="name">name</label>
-                <input type="text" wire:model="name">
+                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                <input autocomplete="off" type="text" wire:model="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 @error('name')
-                    <span>{{ $message }}</span>
+                <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
-            <button type="submit">Create</button>
+            <button type="submit" class="mt-6 inline-flex justify-center py-2 px-4 font-medium">
+                Create
+            </button>
         </form>
     </div>
 
-    <div>
-        <ul>
+    <div class="mt-6">
+        <ul class="space-y-4">
             @foreach($passkeys as $passkey)
-                <li>
-                    <div>
+                <li class="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow-sm">
+                    <div class="text-gray-700">
                         {{ $passkey->name }}
                     </div>
                     <div>
-                        <button wire:click="deletePasskey({{ $passkey->id }})">Delete</button>
+                        <button wire:click="deletePasskey({{ $passkey->id }})" class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-red-600">
+                            Delete
+                        </button>
                     </div>
                 </li>
+            @endforeach
         </ul>
-        @endforeach
     </div>
 
     @include('passkeys::livewire.partials.createScript')
