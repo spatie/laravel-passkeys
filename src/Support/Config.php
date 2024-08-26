@@ -32,7 +32,7 @@ class Config
     {
         $authenticatableModel = config('passkeys.models.authenticatable');
 
-        foreach([Authenticatable::class, HasPasskeys::class] as $trait) {
+        foreach ([Authenticatable::class, HasPasskeys::class] as $trait) {
             if (! in_array($trait, class_uses_recursive($authenticatableModel))) {
                 throw InvalidAuthenticatableModel::traitMissing($authenticatableModel, $trait);
             }
