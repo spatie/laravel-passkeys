@@ -13,7 +13,7 @@ use Webauthn\PublicKeyCredential;
 use Webauthn\PublicKeyCredentialRequestOptions;
 use Webauthn\PublicKeyCredentialSource;
 
-class FindPasskeyAction
+class FindPasskeyToAuthenticateAction
 {
     public function execute(
         string $publicKeyCredentialJson,
@@ -47,7 +47,7 @@ class FindPasskeyAction
             return null;
         }
 
-        $passkey->update(['data' => $publicKeyCredentialSource]);
+        $this->updatePasskey($passkey, $publicKeyCredentialSource);
 
         return $passkey;
     }
@@ -97,5 +97,18 @@ class FindPasskeyAction
         }
 
         return $publicKeyCredentialSource;
+    }
+
+
+    protected function updatePasskey(
+        Passkey $passkey,
+        PublicKeyCredentialSource $publicKeyCredentialSource
+    ): self {
+        $passkey->update([
+            'data' => $publicKeyCredentialSource,
+            'last_used_at' => now(),
+        ]);
+
+        return $this;
     }
 }

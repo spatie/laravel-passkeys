@@ -16,11 +16,14 @@ class Passkey extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'credential_id',
-        'data',
-    ];
+    protected $guarded = [];
+
+    public function casts(): array
+    {
+        return [
+            'last_used_at' => 'timestamp',
+        ];
+    }
 
     public function data(): Attribute
     {
