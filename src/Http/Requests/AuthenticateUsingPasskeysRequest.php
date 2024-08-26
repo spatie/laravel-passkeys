@@ -9,8 +9,7 @@ class AuthenticateUsingPasskeysRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'answer' => ['required', 'json'],
-            'redirect' => ['url'],
+            'start_authentication_response' => ['required', 'json'],
         ];
     }
 }

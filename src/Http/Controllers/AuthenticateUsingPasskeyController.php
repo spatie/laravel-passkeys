@@ -24,7 +24,7 @@ class AuthenticateUsingPasskeyController
         );
 
         $passkey = $findAuthenticatableUsingPasskey->execute(
-            $request->get('answer'),
+            $request->get('start_authentication_response'),
             Session::get('passkey-authentication-options'),
         );
 

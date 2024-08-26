@@ -4,12 +4,12 @@
 
         const options = await response.json();
 
-        const answer = await startAuthentication(options);
+        const startAuthenticationResponse = await startAuthentication(options);
 
         const form = document.getElementById('passkey-login-form');
 
         form.addEventListener('formdata', ({formData}) => {
-            formData.set('answer', JSON.stringify(answer));
+            formData.set('start_authentication_response', JSON.stringify(startAuthenticationResponse));
         });
 
         form.submit();

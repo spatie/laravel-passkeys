@@ -6,7 +6,7 @@
     </form>
 
     @if($message = session()->get('authenticatePasskey::message'))
-        <div>
+        <div class="bg-red-100 text-red-700 p-4 border border-red-400 rounded">
             {{ $message }}
         </div>
     @endif
