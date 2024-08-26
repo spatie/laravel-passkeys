@@ -3,7 +3,6 @@
 namespace Spatie\LaravelPasskeys\Exceptions;
 
 use Exception;
-use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 
 class InvalidAuthenticatableModel extends Exception
 {
