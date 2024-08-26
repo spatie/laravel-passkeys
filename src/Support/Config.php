@@ -3,6 +3,8 @@
 namespace Spatie\LaravelPasskeys\Support;
 
 use Spatie\LaravelPasskeys\Exceptions\InvalidActionClass;
+use Spatie\LaravelPasskeys\Exceptions\InvalidPasskeyModel;
+use Spatie\LaravelPasskeys\Models\Passkey;
 
 class Config
 {
@@ -11,7 +13,11 @@ class Config
      */
     public static function getPassKeyModel(): string
     {
-        // verify it's either our model or it extends it
+        $passkeyModel = config('passkeys.models.passkey');
+
+        if (! is_a($passkeyModel, Passkey::class, true)) {
+            throw InvalidPasskeyModel::make($passkeyModel);
+        }
 
         return config('passkeys.models.passkey');
     }
