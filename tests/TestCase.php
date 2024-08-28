@@ -15,7 +15,7 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
-        Str::createRandomStringsUsing(function() {
+        Str::createRandomStringsUsing(function () {
             return 'fake-random-string';
         });
 
