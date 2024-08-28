@@ -15,7 +15,7 @@ When logging using a passkey, the Laravel app will generate a challenge that you
 
 You can learn more about how passkeys work [here](https://www.dashlane.com/blog/what-is-a-passkey-and-how-does-it-work#).
 
-This package provides a simple way to generate passkey and letting users authenticate using passkeys in your Laravel app.
+This package provides a simple way to generate passkey using a Livewire component. It also contains a Blade component that can authenticate using passkeys.
 
 ## Support us
 
@@ -28,8 +28,6 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 ## Requirements
 
 This package contains a Livewire component to generate passkeys. Make sure you have Livewire installed in your Laravel app.
-
-```bash
 
 ## Installation
 
