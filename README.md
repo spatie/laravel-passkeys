@@ -25,6 +25,12 @@ We invest a lot of resources into creating [best in class open source packages](
 
 We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
 
+## Requirements
+
+This package contains a Livewire component to generate passkeys. Make sure you have Livewire installed in your Laravel app.
+
+```bash
+
 ## Installation
 
 You can install the package via composer:
@@ -60,8 +66,6 @@ php artisan vendor:publish --tag="passkeys-config"
 This is the contents of the published config file:
 
 ```php
-<?php
-
 return [
     /*
      * After a successful authentication attempt using a passkey
@@ -109,7 +113,14 @@ php artisan vendor:publish --tag="passkeys-views"
 
 ## Usage
 
-Coming soon...
+There are two parts to using passkeys in your Laravel app: creating a passkey and authenticating using a passkey.
+
+### Creating a passkey
+
+
+
+
+
 
 ## Testing
 
