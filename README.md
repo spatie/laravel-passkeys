@@ -143,6 +143,22 @@ This component will show a link that, when clicked, will start the passkey authe
 
 If the authentication is successful, the user will be redirected to the URL specified in the  `redirect_to_after_login` key of the `passkeys` config file.
 
+#### Customizing the look and feel of the component
+
+To customize the look and feel of the component, you can pass HTML to the component.
+
+```html
+<x-authenticate-passkey>
+    <button class="bg-blue-500 text-white px-4 py-2 rounded">Authenticate using passkey</button>
+</x-authenticate-passkey>
+```
+
+To customize where the user is redirected after a successful login, you can pass a URL to the `redirect` prop of component.
+
+```html
+<x-authenticate-passkey redirect="/dashboard" />
+```    
+
 ### Events
 
 The package fires the `Spatie\LaravelPasskeys\Events\PasskeyUsedToAuthenticateEvent` when a passkey is used to authenticate. It has a property `passkey` that contains the `Passkey` model that was used to authenticate.
