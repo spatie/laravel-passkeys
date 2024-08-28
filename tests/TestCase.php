@@ -3,6 +3,7 @@
 namespace Spatie\LaravelPasskeys\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\LaravelPasskeys\LaravelPasskeysServiceProvider;
@@ -13,6 +14,10 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
+
+        Str::createRandomStringsUsing(function() {
+            return 'fake-random-string';
+        });
 
         Factory::guessFactoryNamesUsing(
             fn (string $modelName) => 'Spatie\\LaravelPasskeys\\Database\\Factories\\'.class_basename($modelName).'Factory'
