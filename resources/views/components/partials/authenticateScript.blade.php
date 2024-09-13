@@ -12,12 +12,31 @@
 
         const startAuthenticationResponse = await startAuthentication(options);
 
+        // TODO: Add an ability to authenticate with a passkey: Verify the credential.
+        const credential = {};
+        credential.id = startAuthenticationResponse.id;
+        credential.rawId = base64UrlEncode(startAuthenticationResponse.rawId); // Pass a Base64URL encoded ID string.
+        credential.type = startAuthenticationResponse.type;
+
+        // Base64URL encode some values.
+        const clientDataJSON = base64UrlEncode(startAuthenticationResponse.response.clientDataJSON);
+        const authenticatorData = base64UrlEncode(startAuthenticationResponse.response.authenticatorData);
+        const signature = base64UrlEncode(startAuthenticationResponse.response.signature);
+        const userHandle = base64UrlEncode(startAuthenticationResponse.response.userHandle);
+
+        credential.response = {
+            clientDataJSON,
+            authenticatorData,
+            signature,
+            userHandle,
+        };
+
         const form = document.getElementById('passkey-login-form');
 
         form.addEventListener('formdata', ({
             formData
         }) => {
-            formData.set('start_authentication_response', JSON.stringify(startAuthenticationResponse));
+            formData.set('start_authentication_response', JSON.stringify(credential));
         });
 
         form.submit();
@@ -55,5 +74,19 @@
         }
 
         return byteArray;
+    }
+
+    function base64UrlEncode(arrayBuffer) {
+        const byteArray = new Uint8Array(arrayBuffer);
+        let byteString = '';
+        for (let i = 0; i < byteArray.byteLength; i++) {
+            byteString += String.fromCharCode(byteArray[i]);
+        }
+
+        let base64String = btoa(byteString);
+
+        base64String = base64String.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+
+        return base64String;
     }
 </script>
