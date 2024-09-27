@@ -31,31 +31,98 @@ This package contains a Livewire component to generate passkeys. Make sure you h
 
 ## Installation
 
-You can install the package via composer:
+### 1. Install the package via composer
 
 ```bash
 composer require spatie/laravel-passkeys
 ```
 
-Next, you must set the `AUTH_MODEL` in your `.env` file to the class name of the model that should be authenticated using passkeys.
+### 2. Add the package's interface and trait to your Authenticatable model
 
+```php
+// app/Models/User.php
+namespace App\Models;
+
+use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
+use Spatie\LaravelPasskeys\Models\Concerns\InteractsWithPasskeys;
+// ...
+
+class User extends Authenticatable implements HasPasskeys
+{
+    use HasFactory, Notifiable, InteractsWithPasskeys;
+
+    // ... 
+}
+```
+
+### 3. Publish and run the migrations
+
+```bash
+php artisan vendor:publish --tag="passkeys-migrations"
+php artisan migrate
+```
+
+### 4. Install the JavaScript dependencies
+
+```bash
+npm install @simplewebauthn/browser
+```
+
+### 5. Import the JavaScript dependencies
+
+```javascript
+// resources/js/bootstrap.js
+import {
+    browserSupportsWebAuthn,
+    startAuthentication,
+    startRegistration,
+} from '@simplewebauthn/browser'
+
+window.browserSupportsWebAuthn = browserSupportsWebAuthn
+window.startAuthentication = startAuthentication
+window.startRegistration = startRegistration
+```
+
+### 6. Re-build the JavaScript assets
+
+```bash
+npm run build
+```
+
+### 7. Add the package provided routes
+
+```php
+// routes/web.php
+Route::passkeys();
+```
+
+### 8. Add the authentication component to the login view
+
+```html
+<!--Laravel Breeze: resources/views/livewire/pages/auth/login.blade.php-->
+<x-authenticate-passkey />
+```
+
+### 9. Add the passkey management component to the profile view
+
+```html
+<!--Laravel Breeze: resources/views/profile.blade.php-->
+<livewire:passkeys />
+```
+
+### 10. (Optional) Publish the views for custom styling
+
+```bash
+php artisan vendor:publish --tag="passkeys-views"
+```
+
+### 11. (Optional) Set the `AUTH_MODEL` in your `.env` file
+Set the `AUTH_MODEL` in your `.env` file to the class name of the model that should be authenticated using passkeys.
 ```bash
 AUTH_MODEL=App\Models\User
 ```
 
-Next, you publish the migration by the package with:
-
-```bash
-php artisan vendor:publish --tag="passkeys-migrations"
-```
-
-After the migration has been published you can create the `passkeys` table by running the migrations:
-
-```bash
-php artisan migrate
-```
-
-Optionally, you can publish the config file using:
+### 12. (Optional) Publish the config file
 
 ```bash
 php artisan vendor:publish --tag="passkeys-config"
@@ -101,12 +168,6 @@ return [
         'authenticatable' => env('AUTH_MODEL', App\Models\User::class),
     ],
 ];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="passkeys-views"
 ```
 
 ## Usage
