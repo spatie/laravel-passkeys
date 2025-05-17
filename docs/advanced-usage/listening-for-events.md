@@ -3,4 +3,11 @@ title: Listening for events
 weight: 3
 ---
 
-The package fires the `Spatie\LaravelPasskeys\Events\PasskeyUsedToAuthenticateEvent` when a passkey is used to authenticate. It has a property `passkey` that contains the `Passkey` model that was used to authenticate, and `request` which contains the `AuthenticateUsingPasskeysRequest`.
+The package fires the following events:
+- `Spatie\LaravelPasskeys\Events\PasskeyCreatedEvent` – triggered when a passkey is created.
+- `Spatie\LaravelPasskeys\Events\PasskeyUsedToAuthenticateEvent` – triggered when a passkey is used to authenticate.
+
+Both events include a `passkey` property, which is an instance of the `Passkey` model.
+
+The `PasskeyUsedToAuthenticateEvent` also includes a `request` property, which is an instance of `AuthenticateUsingPasskeysRequest`.
+

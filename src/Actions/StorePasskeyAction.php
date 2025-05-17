@@ -2,6 +2,7 @@
 
 namespace Spatie\LaravelPasskeys\Actions;
 
+use Spatie\LaravelPasskeys\Events\PasskeyCreatedEvent;
 use Spatie\LaravelPasskeys\Exceptions\InvalidPasskey;
 use Spatie\LaravelPasskeys\Exceptions\InvalidPasskeyOptions;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
@@ -35,6 +36,8 @@ class StorePasskeyAction
             ...$additionalProperties,
             'data' => $publicKeyCredentialSource,
         ]);
+
+        event(new PasskeyCreatedEvent($passkey));
 
         return $passkey;
     }
