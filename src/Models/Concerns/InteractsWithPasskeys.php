@@ -3,15 +3,23 @@
 namespace Spatie\LaravelPasskeys\Models\Concerns;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\LaravelPasskeys\Support\Config;
 
 trait InteractsWithPasskeys
 {
-    public function passkeys(): HasMany
+    /**
+     * @return HasMany|MorphMany
+     */
+    public function passkeys()
     {
-        $passkeyModel = Config::getPassKeyModel();
+        $passkeyModel = Config::getPasskeyModel();
 
-        return $this->hasMany($passkeyModel, 'authenticatable_id');
+        if (! Config::isMultiAuthEnabled()) {
+            return $this->hasMany($passkeyModel, 'authenticatable_id');
+        }
+
+        return $this->morphMany($passkeyModel, 'authenticatable');
     }
 
     public function getPasskeyName(): string

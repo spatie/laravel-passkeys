@@ -4,6 +4,8 @@ return [
     /*
      * After a successful authentication attempt using a passkey
      * we'll redirect to this URL.
+     *
+     * @deprecated Use the `guards` configuration instead.
      */
     'redirect_to_after_login' => '/dashboard',
 
@@ -30,11 +32,33 @@ return [
 
     /*
      * The models used by the package.
-     *
-     * You can override this by specifying your own models
+     * We recommend using the `passkey_model` and `guards` keys instead.
      */
     'models' => [
+        /*
+         * @deprecated Use the `passkey_model` configuration instead.
+         */
         'passkey' => Spatie\LaravelPasskeys\Models\Passkey::class,
+        /*
+         * @deprecated Use the `guards` configuration instead.
+         */
         'authenticatable' => env('AUTH_MODEL', App\Models\User::class),
+    ],
+
+    /*
+     * The model used for passkeys.
+     * This is the recommended way to specify the passkey model.
+     */
+    'passkey_model' => Spatie\LaravelPasskeys\Models\Passkey::class,
+
+    /*
+     * Here you can define the configuration for each of your guards
+     * to support multiple authenticatable models.
+     */
+    'guards' => [
+        // 'web' => [
+        //     'authenticatable' => App\Models\User::class,
+        //     'redirect_to_after_login' => '/dashboard',
+        // ],
     ],
 ];

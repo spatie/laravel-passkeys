@@ -37,27 +37,29 @@ class AuthenticateUsingPasskeyController
             return $this->invalidPasskeyResponse();
         }
 
-        $this->logInAuthenticatable($authenticatable);
+        $guard = $passkey->guard ?? null;
+
+        $this->logInAuthenticatable($authenticatable, $guard);
 
         $this->firePasskeyEvent($passkey, $request);
 
-        return $this->validPasskeyResponse($request);
+        return $this->validPasskeyResponse($request, $guard);
     }
 
-    protected function logInAuthenticatable(Authenticatable $authenticatable): self
+    protected function logInAuthenticatable(Authenticatable $authenticatable, ?string $guard = null): self
     {
-        auth()->login($authenticatable);
+        auth()->guard($guard)->login($authenticatable);
 
         Session::regenerate();
 
         return $this;
     }
 
-    protected function validPasskeyResponse(Request $request): RedirectResponse
+    protected function validPasskeyResponse(Request $request, ?string $guard = null): RedirectResponse
     {
         $url = Session::has('passkeys.redirect')
             ? Session::pull('passkeys.redirect')
-            : Config::getRedirectAfterLogin();
+            : Config::getRedirectAfterLogin($guard);
 
         return redirect($url);
     }

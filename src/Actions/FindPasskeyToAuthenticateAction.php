@@ -2,6 +2,7 @@
 
 namespace Spatie\LaravelPasskeys\Actions;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Spatie\LaravelPasskeys\Models\Passkey;
 use Spatie\LaravelPasskeys\Support\Config;
 use Spatie\LaravelPasskeys\Support\Serializer;
@@ -49,6 +50,18 @@ class FindPasskeyToAuthenticateAction
 
         $this->updatePasskey($passkey, $publicKeyCredentialSource);
 
+        if (Config::isMultiAuthEnabled()) {
+            $guard = $this->resolveGuard($passkey->authenticatable);
+
+            if (is_null($guard)) {
+                return null;
+            }
+
+            // We'll set the guard on the passkey model so we can use it later
+            // in the pipeline, without having to resolve it again.
+            $passkey->setAttribute('guard', $guard);
+        }
+
         return $passkey;
     }
 
@@ -69,7 +82,7 @@ class FindPasskeyToAuthenticateAction
 
     protected function findPasskey(PublicKeyCredential $publicKeyCredential): ?Passkey
     {
-        $passkeyModel = Config::getPassKeyModel();
+        $passkeyModel = Config::getPasskeyModel();
 
         return $passkeyModel::firstWhere('credential_id', mb_convert_encoding($publicKeyCredential->rawId, 'UTF-8'));
     }
@@ -109,5 +122,20 @@ class FindPasskeyToAuthenticateAction
         ]);
 
         return $this;
+    }
+
+    protected function resolveGuard(Authenticatable $authenticatable): ?string
+    {
+        $authenticatableClass = $authenticatable::class;
+
+        foreach (config('auth.guards') as $guard => $config) {
+            $provider = config("auth.providers.{$config['provider']}");
+
+            if (($provider['model'] ?? null) === $authenticatableClass) {
+                return $guard;
+            }
+        }
+
+        return null;
     }
 }

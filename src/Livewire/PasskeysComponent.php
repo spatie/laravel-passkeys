@@ -18,6 +18,17 @@ class PasskeysComponent extends Component
     #[Validate('required|string|max:255')]
     public string $name = '';
 
+    public ?string $guard = null;
+
+    public function mount(?string $guard = null): void
+    {
+        if ($guard === null && Config::isMultiAuthEnabled()) {
+            $guard = auth()->getDefaultDriver();
+        }
+
+        $this->guard = $guard;
+    }
+
     public function render(): View
     {
         return view('passkeys::livewire.passkeys', data: [
@@ -62,7 +73,7 @@ class PasskeysComponent extends Component
     public function currentUser(): Authenticatable&HasPasskeys
     {
         /** @var Authenticatable&HasPasskeys $user */
-        $user = auth()->user();
+        $user = auth($this->guard)->user();
 
         return $user;
     }
