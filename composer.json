@@ -24,7 +24,7 @@
     "require-dev": {
         "larastan/larastan": "^3.4",
         "laravel/pint": "^1.14",
-        "livewire/livewire": "^3.5",
+        "livewire/livewire": "^4.0",
         "nunomaduro/collision": "^8.1.1",
         "orchestra/testbench": "^10.0",
         "pestphp/pest": "^3.0",
