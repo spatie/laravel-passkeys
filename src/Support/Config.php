@@ -67,7 +67,7 @@ class Config
 
         self::ensureValidActionClass($actionName, $actionBaseClass, $actionClass);
 
-        return config("passkeys.actions.{$actionName}");
+        return $actionClass;
     }
 
     /**
