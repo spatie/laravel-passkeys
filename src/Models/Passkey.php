@@ -36,7 +36,7 @@ class Passkey extends Model
         return new Attribute(
             get: fn (string $value) => $serializer->fromJson(
                 $value,
-                PublicKeyCredentialSource::class
+                PublicKeyCredentialSource::class,
             ),
             set: fn (PublicKeyCredentialSource $value) => [
                 'credential_id' => self::encodeCredentialId($value->publicKeyCredentialId),

@@ -4,6 +4,7 @@ namespace Spatie\LaravelPasskeys\Actions;
 
 use Spatie\LaravelPasskeys\Models\Passkey;
 use Spatie\LaravelPasskeys\Support\Config;
+use Spatie\LaravelPasskeys\Support\CredentialRecordConverter;
 use Spatie\LaravelPasskeys\Support\Serializer;
 use Throwable;
 use Webauthn\AuthenticatorAssertionResponse;
@@ -89,17 +90,17 @@ class FindPasskeyToAuthenticateAction
             $validator = AuthenticatorAssertionResponseValidator::create($requestCsm);
 
             $publicKeyCredentialSource = $validator->check(
-                publicKeyCredentialSource: $passkey->data,
-                authenticatorAssertionResponse: $publicKeyCredential->response,
-                publicKeyCredentialRequestOptions: $passkeyOptions,
-                host: parse_url(config('app.url'), PHP_URL_HOST),
-                userHandle: null,
+                $passkey->data,
+                $publicKeyCredential->response,
+                $passkeyOptions,
+                parse_url(config('app.url'), PHP_URL_HOST),
+                null,
             );
         } catch (Throwable) {
             return null;
         }
 
-        return $publicKeyCredentialSource;
+        return CredentialRecordConverter::toPublicKeyCredentialSource($publicKeyCredentialSource);
     }
 
     protected function updatePasskey(

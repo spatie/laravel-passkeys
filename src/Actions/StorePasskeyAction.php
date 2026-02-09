@@ -7,6 +7,7 @@ use Spatie\LaravelPasskeys\Exceptions\InvalidPasskeyOptions;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Models\Passkey;
 use Spatie\LaravelPasskeys\Support\Config;
+use Spatie\LaravelPasskeys\Support\CredentialRecordConverter;
 use Spatie\LaravelPasskeys\Support\Serializer;
 use Throwable;
 use Webauthn\AuthenticatorAttestationResponse;
@@ -69,7 +70,7 @@ class StorePasskeyAction
             throw InvalidPasskey::invalidAuthenticatorAttestationResponse($exception);
         }
 
-        return $publicKeyCredentialSource;
+        return CredentialRecordConverter::toPublicKeyCredentialSource($publicKeyCredentialSource);
     }
 
     protected function getPasskeyOptions(string $passkeyOptionsJson): PublicKeyCredentialCreationOptions

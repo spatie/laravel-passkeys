@@ -1,7 +1,7 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Parameter \$authenticatorAssertionResponse of method Webauthn\\AuthenticatorAssertionResponseValidator\:\:check\(\) expects Webauthn\\AuthenticatorAssertionResponse, Webauthn\\AuthenticatorResponse given\.$#'
+			message: '#^Parameter \#2 \$authenticatorAssertionResponse of method Webauthn\\AuthenticatorAssertionResponseValidator\:\:check\(\) expects Webauthn\\AuthenticatorAssertionResponse, Webauthn\\AuthenticatorResponse given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Actions/FindPasskeyToAuthenticateAction.php
