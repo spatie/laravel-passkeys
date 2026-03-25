@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-passkeys` will be documented in this file.
 
+## 1.6.4 - 2026-03-25
+
+### What's Changed
+
+* Allow phpdocumentor/reflection-docblock 6.x compatibility by using web-auth/webauthn-lib 5.3.x
+
+Fixes #104
+
 ## 1.6.3 - 2026-02-27
 
 Support Laravel 13
