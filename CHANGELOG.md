@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-passkeys` will be documented in this file.
 
+## 1.6.5 - 2026-03-27
+
+### What's Changed
+
+* Fix PublicKeyCredentialSource type-hint issues with webauthn-lib 5.3+
+
+In webauthn-lib 5.3+, several methods return `CredentialRecord` instead of `PublicKeyCredentialSource`, causing type errors in the Passkey model's `data` accessor and the factory.
+
 ## 1.6.4 - 2026-03-25
 
 ### What's Changed
