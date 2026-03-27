@@ -2,12 +2,15 @@
 
 namespace Spatie\LaravelPasskeys\Models\Concerns;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
+use Spatie\LaravelPasskeys\Models\Passkey;
 
 /**
- * @mixin \Illuminate\Database\Eloquent\Model
+ * @mixin Model
  *
- * @property \Illuminate\Support\Collection<\Spatie\LaravelPasskeys\Models\Passkey> $passkeys
+ * @property Collection<Passkey> $passkeys
  */
 interface HasPasskeys
 {

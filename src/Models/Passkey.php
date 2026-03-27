@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
 use Spatie\LaravelPasskeys\Database\Factories\PasskeyFactory;
 use Spatie\LaravelPasskeys\Support\Config;
+use Spatie\LaravelPasskeys\Support\CredentialRecordConverter;
 use Spatie\LaravelPasskeys\Support\Serializer;
 use Webauthn\PublicKeyCredentialSource;
 
@@ -34,9 +35,11 @@ class Passkey extends Model
         $serializer = Serializer::make();
 
         return new Attribute(
-            get: fn (string $value) => $serializer->fromJson(
-                $value,
-                PublicKeyCredentialSource::class,
+            get: fn (string $value): PublicKeyCredentialSource => CredentialRecordConverter::toPublicKeyCredentialSource(
+                $serializer->fromJson(
+                    $value,
+                    PublicKeyCredentialSource::class,
+                )
             ),
             set: fn (PublicKeyCredentialSource $value) => [
                 'credential_id' => self::encodeCredentialId($value->publicKeyCredentialId),

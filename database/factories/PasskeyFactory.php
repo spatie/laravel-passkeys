@@ -5,6 +5,7 @@ namespace Spatie\LaravelPasskeys\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\LaravelPasskeys\Models\Passkey;
 use Spatie\LaravelPasskeys\Support\Config;
+use Spatie\LaravelPasskeys\Support\CredentialRecordConverter;
 use Symfony\Component\Uid\Uuid;
 use Webauthn\PublicKeyCredentialDescriptor;
 use Webauthn\PublicKeyCredentialSource;
@@ -28,7 +29,7 @@ class PasskeyFactory extends Factory
 
     protected function dummyPublicKeyCredentialSource(): PublicKeyCredentialSource
     {
-        return PublicKeyCredentialSource::create(
+        return CredentialRecordConverter::toPublicKeyCredentialSource(PublicKeyCredentialSource::create(
             base64_decode(
                 'eHouz/Zi7+BmByHjJ/tx9h4a1WZsK4IzUmgGjkhyOodPGAyUqUp/B9yUkflXY3yHWsNtsrgCXQ3HjAIFUeZB+w==',
                 true
@@ -36,7 +37,7 @@ class PasskeyFactory extends Factory
             PublicKeyCredentialDescriptor::CREDENTIAL_TYPE_PUBLIC_KEY,
             [],
             'none',
-            $trustPath ?? EmptyTrustPath::create(),
+            EmptyTrustPath::create(),
             Uuid::fromString('00000000-0000-0000-0000-000000000000'),
             base64_decode(
                 'pQECAyYgASFYIJV56vRrFusoDf9hm3iDmllcxxXzzKyO9WruKw4kWx7zIlgg/nq63l8IMJcIdKDJcXRh9hoz0L+nVwP1Oxil3/oNQYs=',
@@ -44,6 +45,6 @@ class PasskeyFactory extends Factory
             ),
             'foo',
             100,
-        );
+        ));
     }
 }
