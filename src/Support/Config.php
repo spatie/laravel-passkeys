@@ -12,7 +12,7 @@ use Spatie\LaravelPasskeys\Models\Passkey;
 class Config
 {
     /**
-     * @return class-string<\Spatie\LaravelPasskeys\Models\Passkey>
+     * @return class-string<Passkey>
      */
     public static function getPassKeyModel(): string
     {
