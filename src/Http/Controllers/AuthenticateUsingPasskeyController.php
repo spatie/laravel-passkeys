@@ -39,7 +39,9 @@ class AuthenticateUsingPasskeyController
 
         $this->logInAuthenticatable($authenticatable, $request->boolean('remember'));
 
-        $this->firePasskeyEvent($passkey, $request);
+        if(Config::getPasskeyLoginEventState()){
+            $this->firePasskeyEvent($passkey, $request);
+        }
 
         return $this->validPasskeyResponse($request);
     }
