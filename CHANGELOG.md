@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-passkeys` will be documented in this file.
 
+## 1.7.0 - 2026-04-08
+
+### What's Changed
+
+* Added Event Configuration as well as PasskeyRegisteredEvent to fire on passkey creation. by @itsgrimace in https://github.com/spatie/laravel-passkeys/pull/109
+* Bump dependabot/fetch-metadata from 2.5.0 to 3.0.0 by @dependabot[bot] in https://github.com/spatie/laravel-passkeys/pull/108
+
+### New Contributors
+
+* @itsgrimace made their first contribution in https://github.com/spatie/laravel-passkeys/pull/109
+
+**Full Changelog**: https://github.com/spatie/laravel-passkeys/compare/1.6.5...1.7.0
+
 ## 1.6.5 - 2026-03-27
 
 ### What's Changed
