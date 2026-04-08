@@ -55,16 +55,6 @@ class Config
         return config('passkeys.relying_party.icon');
     }
 
-    public static function getPasskeyRegisteredEventState(): bool
-    {
-        return config('passkeys.events.passkey_registered');
-    }
-
-    public static function getPasskeyLoginEventState(): bool
-    {
-        return config('passkeys.events.passkey_used_to_authenticate');
-    }
-
     /**
      * @template T
      *

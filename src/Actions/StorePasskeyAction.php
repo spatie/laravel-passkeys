@@ -38,9 +38,7 @@ class StorePasskeyAction
             'data' => $publicKeyCredentialSource,
         ]);
 
-        if(Config::getPasskeyRegisteredEventState()){
-            event(new PasskeyRegisteredEvent($passkey, $authenticatable));
-        }
+        event(new PasskeyRegisteredEvent($passkey, $authenticatable));
 
         return $passkey;
     }

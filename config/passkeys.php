@@ -37,11 +37,6 @@ return [
         'icon' => null,
     ],
 
-    'events' => [
-        'passkey_registered' => false,
-        'passkey_used_to_authenticate' => true
-    ],
-
     /*
      * The models used by the package.
      *
