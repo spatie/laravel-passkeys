@@ -57,7 +57,7 @@ class PasskeysComponent extends Component
         $this->clearForm();
     }
 
-    public function deletePasskey(int $passkeyId): void
+    public function deletePasskey(int|string $passkeyId): void
     {
         $this->currentUser()->passkeys()->where('id', $passkeyId)->delete();
     }
