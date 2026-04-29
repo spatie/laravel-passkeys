@@ -15,7 +15,8 @@ it('fires a PasskeyRegisteredEvent when a passkey is stored', function () {
 
     $user = User::factory()->create();
 
-    $action = new class extends StorePasskeyAction {
+    $action = new class extends StorePasskeyAction
+    {
         protected function determinePublicKeyCredentialSource(
             string $passkeyJson,
             string $passkeyOptionsJson,
