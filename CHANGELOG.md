@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-passkeys` will be documented in this file.
 
+## 1.7.1 - 2026-04-29
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 3.0.0 to 3.1.0 by @dependabot[bot] in https://github.com/spatie/laravel-passkeys/pull/111
+* Fix: Allow string in deletePasskey method by @webard in https://github.com/spatie/laravel-passkeys/pull/113
+
+**Full Changelog**: https://github.com/spatie/laravel-passkeys/compare/1.7.0...1.7.1
+
 ## 1.7.0 - 2026-04-08
 
 ### What's Changed
