@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-passkeys` will be documented in this file.
 
+## 1.7.2 - 2026-04-30
+
+### What's Changed
+
+* Use getRelyingPartyId from Config class by @RichardPo in https://github.com/spatie/laravel-passkeys/pull/114
+
+### New Contributors
+
+* @RichardPo made their first contribution in https://github.com/spatie/laravel-passkeys/pull/114
+
+**Full Changelog**: https://github.com/spatie/laravel-passkeys/compare/1.7.1...1.7.2
+
 ## 1.7.1 - 2026-04-29
 
 ### What's Changed
