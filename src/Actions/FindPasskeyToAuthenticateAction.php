@@ -86,6 +86,8 @@ class FindPasskeyToAuthenticateAction
         $csmFactory = $configureCeremonyStepManagerFactoryAction->execute();
         $requestCsm = $csmFactory->requestCeremony();
 
+        $relyingPartyId = Config::getRelyingPartyId();
+
         try {
             $validator = AuthenticatorAssertionResponseValidator::create($requestCsm);
 
@@ -93,7 +95,7 @@ class FindPasskeyToAuthenticateAction
                 $passkey->data,
                 $publicKeyCredential->response,
                 $passkeyOptions,
-                parse_url(config('app.url'), PHP_URL_HOST),
+                $relyingPartyId,
                 null,
             );
         } catch (Throwable) {
