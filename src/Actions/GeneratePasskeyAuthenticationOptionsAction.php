@@ -20,7 +20,7 @@ class GeneratePasskeyAuthenticationOptionsAction
 
         $options = Serializer::make()->toJson($options);
 
-        Session::flash('passkey-authentication-options', $options);
+        Session::put('passkey-authentication-options', $options);
 
         return $options;
     }

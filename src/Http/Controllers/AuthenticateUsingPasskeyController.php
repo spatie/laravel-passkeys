@@ -16,6 +16,12 @@ class AuthenticateUsingPasskeyController
 {
     public function __invoke(AuthenticateUsingPasskeysRequest $request)
     {
+        $passkeyOptions = Session::pull('passkey-authentication-options');
+
+        if (blank($passkeyOptions)) {
+            return $this->invalidPasskeyResponse();
+        }
+
         $findAuthenticatableUsingPasskey = Config::getAction(
             'find_passkey',
             FindPasskeyToAuthenticateAction::class
@@ -23,7 +29,7 @@ class AuthenticateUsingPasskeyController
 
         $passkey = $findAuthenticatableUsingPasskey->execute(
             $request->input('start_authentication_response'),
-            Session::get('passkey-authentication-options'),
+            $passkeyOptions,
         );
 
         if (! $passkey) {
