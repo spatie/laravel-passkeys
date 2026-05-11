@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-passkeys` will be documented in this file.
 
+## 1.7.3 - 2026-05-11
+
+### What's Changed
+
+* Persist passkey authentication options across intermediate requests by @patrickweh in https://github.com/spatie/laravel-passkeys/pull/116
+
+### New Contributors
+
+* @patrickweh made their first contribution in https://github.com/spatie/laravel-passkeys/pull/116
+
+**Full Changelog**: https://github.com/spatie/laravel-passkeys/compare/1.7.2...1.7.3
+
 ## 1.7.2 - 2026-04-30
 
 ### What's Changed
