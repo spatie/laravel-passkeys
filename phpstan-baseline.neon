@@ -7,6 +7,48 @@ parameters:
 			path: src/Actions/FindPasskeyToAuthenticateAction.php
 
 		-
+			message: '''
+				#^Parameter \$publicKeyCredentialSource of method Spatie\\LaravelPasskeys\\Actions\\FindPasskeyToAuthenticateAction\:\:updatePasskey\(\) has typehint with deprecated class Webauthn\\PublicKeyCredentialSource\:
+				since 5\.3, use CredentialRecord instead\. Will be removed in 6\.0\.$#
+			'''
+			identifier: parameter.deprecatedClass
+			count: 1
+			path: src/Actions/FindPasskeyToAuthenticateAction.php
+
+		-
+			message: '''
+				#^Return type of method Spatie\\LaravelPasskeys\\Actions\\FindPasskeyToAuthenticateAction\:\:determinePublicKeyCredentialSource\(\) has typehint with deprecated class Webauthn\\PublicKeyCredentialSource\:
+				since 5\.3, use CredentialRecord instead\. Will be removed in 6\.0\.$#
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: src/Actions/FindPasskeyToAuthenticateAction.php
+
+		-
+			message: '''
+				#^Access to deprecated property \$name of class Webauthn\\PublicKeyCredentialEntity\:
+				since 5\.3\.0 and will be removed in 6\.0\.0\. Please set "" and use PublicKeyCredentialUserEntity\.name instead\.$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: src/Actions/GeneratePasskeyRegisterOptionsAction.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of method Illuminate\\Database\\Eloquent\\Relations\\HasOneOrMany\<.+\>\:\:create\(\) expects array\<model property of .+, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Actions/StorePasskeyAction.php
+
+		-
+			message: '''
+				#^Return type of method Spatie\\LaravelPasskeys\\Actions\\StorePasskeyAction\:\:determinePublicKeyCredentialSource\(\) has typehint with deprecated class Webauthn\\PublicKeyCredentialSource\:
+				since 5\.3, use CredentialRecord instead\. Will be removed in 6\.0\.$#
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: src/Actions/StorePasskeyAction.php
+
+		-
 			message: '#^Negated boolean expression is always false\.$#'
 			identifier: booleanNot.alwaysFalse
 			count: 1
@@ -25,7 +67,52 @@ parameters:
 			path: src/Models/Concerns/InteractsWithPasskeys.php
 
 		-
+			message: '''
+				#^Access to constant on deprecated class Webauthn\\PublicKeyCredentialSource\:
+				since 5\.3, use CredentialRecord instead\. Will be removed in 6\.0\.$#
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: src/Models/Passkey.php
+
+		-
 			message: '#^Parameter \#1 \$related of method Illuminate\\Database\\Eloquent\\Model\:\:belongsTo\(\) expects class\-string\<Illuminate\\Database\\Eloquent\\Model\>, class\-string\<Illuminate\\Contracts\\Auth\\Authenticatable\> given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Models/Passkey.php
+
+		-
+			message: '''
+				#^Parameter \$value of anonymous function has typehint with deprecated class Webauthn\\PublicKeyCredentialSource\:
+				since 5\.3, use CredentialRecord instead\. Will be removed in 6\.0\.$#
+			'''
+			identifier: parameter.deprecatedClass
+			count: 1
+			path: src/Models/Passkey.php
+
+		-
+			message: '''
+				#^Return type of anonymous function has typehint with deprecated class Webauthn\\PublicKeyCredentialSource\:
+				since 5\.3, use CredentialRecord instead\. Will be removed in 6\.0\.$#
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: src/Models/Passkey.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class Webauthn\\PublicKeyCredentialSource\:
+				since 5\.3, use CredentialRecord instead\. Will be removed in 6\.0\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: src/Support/CredentialRecordConverter.php
+
+		-
+			message: '''
+				#^Return type of method Spatie\\LaravelPasskeys\\Support\\CredentialRecordConverter\:\:toPublicKeyCredentialSource\(\) has typehint with deprecated class Webauthn\\PublicKeyCredentialSource\:
+				since 5\.3, use CredentialRecord instead\. Will be removed in 6\.0\.$#
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: src/Support/CredentialRecordConverter.php
