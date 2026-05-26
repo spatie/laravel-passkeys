@@ -19,7 +19,7 @@
         "php": "^8.2|^8.3|^8.4",
         "illuminate/contracts": "^11.0|^12.0|^13.0",
         "spatie/laravel-package-tools": "^1.16",
-        "web-auth/webauthn-lib": "^5.0|5.3.x-dev as 5.3.0"
+        "web-auth/webauthn-lib": "^5.3"
     },
     "require-dev": {
         "larastan/larastan": "^3.4",

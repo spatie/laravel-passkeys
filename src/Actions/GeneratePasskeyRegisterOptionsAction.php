@@ -34,11 +34,17 @@ class GeneratePasskeyRegisterOptionsAction
 
     protected function relatedPartyEntity(): PublicKeyCredentialRpEntity
     {
-        return new PublicKeyCredentialRpEntity(
-            name: Config::getRelyingPartyName(),
+        $entity = new PublicKeyCredentialRpEntity(
+            name: '',
             id: Config::getRelyingPartyId(),
             icon: Config::getRelyingPartyIcon(),
         );
+
+        // web-auth/webauthn-lib 5.3 deprecates passing the name to the
+        // constructor; it has to be assigned through the property instead.
+        $entity->name = Config::getRelyingPartyName();
+
+        return $entity;
     }
 
     public function generateUserEntity(HasPasskeys $authenticatable): PublicKeyCredentialUserEntity
