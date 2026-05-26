@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-passkeys` will be documented in this file.
 
+## 1.8.0 - 2026-05-26
+
+### What's Changed
+
+* Fix webauthn-lib 5.3 relying party name deprecation by @freekmurze in https://github.com/spatie/laravel-passkeys/pull/120
+
+**Full Changelog**: https://github.com/spatie/laravel-passkeys/compare/1.7.3...1.8.0
+
 ## 1.7.3 - 2026-05-11
 
 ### What's Changed
