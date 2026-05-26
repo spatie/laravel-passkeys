@@ -3,11 +3,13 @@
 namespace Spatie\LaravelPasskeys\Actions;
 
 use Illuminate\Support\Str;
+use ReflectionProperty;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Support\Config;
 use Spatie\LaravelPasskeys\Support\Serializer;
 use Webauthn\AuthenticatorSelectionCriteria;
 use Webauthn\PublicKeyCredentialCreationOptions;
+use Webauthn\PublicKeyCredentialEntity;
 use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialUserEntity;
 
@@ -34,11 +36,27 @@ class GeneratePasskeyRegisterOptionsAction
 
     protected function relatedPartyEntity(): PublicKeyCredentialRpEntity
     {
-        return new PublicKeyCredentialRpEntity(
-            name: Config::getRelyingPartyName(),
-            id: Config::getRelyingPartyId(),
-            icon: Config::getRelyingPartyIcon(),
-        );
+        $name = Config::getRelyingPartyName();
+        $id = Config::getRelyingPartyId();
+        $icon = Config::getRelyingPartyIcon();
+
+        // In web-auth/webauthn-lib 5.3+, passing a name to the constructor is
+        // deprecated in favour of assigning the public `name` property. In
+        // older versions that property is readonly, so the name still has to
+        // be passed through the constructor.
+        if ($this->entityNameIsWritable()) {
+            $entity = new PublicKeyCredentialRpEntity(name: '', id: $id, icon: $icon);
+            $entity->name = $name;
+
+            return $entity;
+        }
+
+        return new PublicKeyCredentialRpEntity(name: $name, id: $id, icon: $icon);
+    }
+
+    protected function entityNameIsWritable(): bool
+    {
+        return ! (new ReflectionProperty(PublicKeyCredentialEntity::class, 'name'))->isReadOnly();
     }
 
     public function generateUserEntity(HasPasskeys $authenticatable): PublicKeyCredentialUserEntity

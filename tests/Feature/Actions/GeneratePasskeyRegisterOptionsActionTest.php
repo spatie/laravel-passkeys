@@ -27,3 +27,21 @@ it('can generate options to register a passkey as an object', function () {
 
     expect($output)->toBeInstanceOf(PublicKeyCredentialCreationOptions::class);
 });
+
+it('does not trigger deprecation warnings when generating register options', function () {
+    $deprecations = [];
+
+    set_error_handler(function (int $errno, string $errstr) use (&$deprecations): bool {
+        $deprecations[] = $errstr;
+
+        return true;
+    }, E_USER_DEPRECATED);
+
+    try {
+        $this->action->execute($this->user);
+    } finally {
+        restore_error_handler();
+    }
+
+    expect($deprecations)->toBe([]);
+});
