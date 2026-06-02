@@ -9,8 +9,8 @@
 <h1>Use passkeys in your Laravel app</h1>
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-passkeys.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-passkeys)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/spatie/laravel-passkeys/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/spatie/laravel-passkeys/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/spatie/laravel-passkeys/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/spatie/laravel-passkeys/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![GitHub Tests Action Status](https://github.com/spatie/laravel-passkeys/actions/workflows/run-tests.yml/badge.svg)](https://github.com/spatie/laravel-passkeys/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://github.com/spatie/laravel-passkeys/actions/workflows/fix-php-code-style-issues.yml/badge.svg)](https://github.com/spatie/laravel-passkeys/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-passkeys.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-passkeys)
     
 </div>
