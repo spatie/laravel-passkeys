@@ -2,7 +2,9 @@
 
 namespace Spatie\LaravelPasskeys\Support;
 
+use ReflectionProperty;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\Serializer as SymfonySerializer;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
@@ -14,10 +16,22 @@ class Serializer
     {
         $attestationStatementSupportManager = AttestationStatementSupportManager::create();
 
-        /** @var SymfonySerializer $serializer */
-        $serializer = (new WebauthnSerializerFactory($attestationStatementSupportManager))->create();
+        /** @var SymfonySerializer $webauthnSerializer */
+        $webauthnSerializer = (new WebauthnSerializerFactory($attestationStatementSupportManager))->create();
 
-        return new self($serializer);
+        return new self(static::registerRpEntityDenormalizer($webauthnSerializer));
+    }
+
+    protected static function registerRpEntityDenormalizer(SymfonySerializer $webauthnSerializer): SymfonySerializer
+    {
+        // The factory does not expose its normalizers, so we read them to rebuild
+        // the serializer with our relying party denormalizer taking precedence.
+        $normalizers = (new ReflectionProperty(SymfonySerializer::class, 'normalizers'))->getValue($webauthnSerializer);
+
+        return new SymfonySerializer(
+            [new PublicKeyCredentialRpEntityDenormalizer, ...$normalizers],
+            [new JsonEncoder],
+        );
     }
 
     public function __construct(
