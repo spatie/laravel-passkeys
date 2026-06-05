@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-passkeys` will be documented in this file.
 
+## 1.8.1 - 2026-06-05
+
+### What's Changed
+
+* Avoid webauthn-lib 5.3 CredentialRecord deprecations during authentication by @freekmurze in https://github.com/spatie/laravel-passkeys/pull/123
+
+**Full Changelog**: https://github.com/spatie/laravel-passkeys/compare/1.8.0...1.8.1
+
 ## 1.8.0 - 2026-05-26
 
 ### What's Changed
