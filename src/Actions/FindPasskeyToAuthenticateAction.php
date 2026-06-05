@@ -92,7 +92,7 @@ class FindPasskeyToAuthenticateAction
             $validator = AuthenticatorAssertionResponseValidator::create($requestCsm);
 
             $publicKeyCredentialSource = $validator->check(
-                $passkey->data,
+                CredentialRecordConverter::toCredentialRecord($passkey->data),
                 $publicKeyCredential->response,
                 $passkeyOptions,
                 $relyingPartyId,
