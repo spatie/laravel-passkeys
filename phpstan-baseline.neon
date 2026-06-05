@@ -34,6 +34,15 @@ parameters:
 			path: src/Actions/GeneratePasskeyRegisterOptionsAction.php
 
 		-
+			message: '''
+				#^Access to deprecated property \$name of class Webauthn\\PublicKeyCredentialEntity\:
+				since 5\.3\.0 and will be removed in 6\.0\.0\. Please set "" and use PublicKeyCredentialUserEntity\.name instead\.$#
+			'''
+			identifier: property.deprecated
+			count: 1
+			path: src/Support/PublicKeyCredentialRpEntityDenormalizer.php
+
+		-
 			message: '#^Parameter \#1 \$attributes of method Illuminate\\Database\\Eloquent\\Relations\\HasOneOrMany\<.+\>\:\:create\(\) expects array\<model property of .+, mixed\>, array given\.$#'
 			identifier: argument.type
 			count: 1
