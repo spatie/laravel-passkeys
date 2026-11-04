@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-passkeys` will be documented in this file.
 
+## 1.8.2 - 2026-11-04
+
+### What's Changed
+
+* Add the standard Czech `cs` locale while preserving legacy `cz` translations, configured fallbacks, and application overrides by @kojdad-alt and @freekmurze in https://github.com/spatie/laravel-passkeys/pull/127.
+* Drop Laravel 11 support; Laravel 12 and 13 remain supported. PHP requirements are unchanged.
+* Refresh two existing PHPStan deprecation-baseline entries for the current WebAuthn diagnostics without changing relying-party names.
+* Bump actions/checkout from 6 to 7 by @dependabot[bot] in https://github.com/spatie/laravel-passkeys/pull/125.
+* Use Spatie-hosted support images in the README.
+
+**Full Changelog**: https://github.com/spatie/laravel-passkeys/compare/1.8.1...1.8.2
+
 ## 1.8.1 - 2026-06-05
 
 ### What's Changed
