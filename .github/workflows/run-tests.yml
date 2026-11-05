@@ -28,6 +28,9 @@ jobs:
         exclude:
           - laravel: 13.*
             php: 8.2
+          # Laravel 12's ArraySessionHandler triggers a PHP 8.6 create_sid() deprecation.
+          - laravel: 12.*
+            php: 8.6
         include:
           - laravel: 12.*
             testbench: ^10.0
